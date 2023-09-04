@@ -1,0 +1,2 @@
+Beans,12.0
+Chicken,10.5
