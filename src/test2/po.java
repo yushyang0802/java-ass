@@ -131,7 +131,6 @@ public class po extends javax.swing.JFrame {
         purchase_order add = new purchase_order();
         add.setVisible(true);
         this.dispose();
-        System.out.println("hhlo");
     }//GEN-LAST:event_btnviewActionPerformed
 
     /**
