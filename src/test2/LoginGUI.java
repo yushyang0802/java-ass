@@ -150,67 +150,17 @@ public class LoginGUI extends javax.swing.JFrame {
         String username = UsernameTextField.getText();
         String role = RoleComboBox.getSelectedItem().toString();
         String password = new String(PasswordField.getPassword());
-    
-        handleLogin(username, role, password);
-    }
 
-    private void handleLogin(String username, String role, String password) {
-        String file_name = "C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\account.txt";
+        Login login = new Login(); // Create an instance of the Login class
+        boolean loginSuccess = login.handleLogin(username, role, password);
 
-        try {
-            FileReader fr = new FileReader(file_name);
-            BufferedReader br = new BufferedReader(fr);
-
-            boolean check_exist = false;
-            String record;
-
-            while ((record = br.readLine()) != null) {
-                String[] line = record.split(",");
-
-                if (username.equals(line[0]) && role.equals(line[1]) && password.equals(line[2])) {
-                    check_exist = true;
-                    break;
-                }                                
-            }
-
-            fr.close();
-            br.close();
-
-            if (check_exist) {
-                navigateToMenu(username, role);
-            } else {
-                JOptionPane.showMessageDialog(null, "Login Failed");
-                UsernameTextField.setText("");
-                PasswordField.setText("");
-            }
-        } 
-        catch (FileNotFoundException error) {
-            System.out.println("File not found.");
-        } 
-        catch (IOException error) {
-            System.out.println("An error occurred.");
-        }
-    }
-
-    private void navigateToMenu(String username, String role) {
-        String roleLowerCase = role.toLowerCase(); // Convert role to lowercase
-
-        JOptionPane.showMessageDialog(null, "Welcome " + username);
-        this.dispose();
-
-        if (roleLowerCase.equals("sales manager")) {
-            SalesMenu salesmenuGUI = new SalesMenu();
-            salesmenuGUI.setVisible(true);
-        } 
-
-        else if (roleLowerCase.equals("purchase manager")) {
-            PurchaseMenu purchasemenuGUI = new PurchaseMenu();
-            purchasemenuGUI.setVisible(true);
-        } 
-
-        else if (roleLowerCase.equals("admin")) {
-            AdminMenu adminmenuGUI = new AdminMenu();
-            adminmenuGUI.setVisible(true);
+        if (loginSuccess) {
+            login.navigateToMenu(username, role);
+            this.dispose(); // Close the login GUI
+        } else {
+            JOptionPane.showMessageDialog(null, "Login Failed");
+            UsernameTextField.setText("");
+            PasswordField.setText("");
         }
     }//GEN-LAST:event_LoginButtonActionPerformed
 
