@@ -1,6 +1,8 @@
 
 package test2;
 
+import yushyang.po;
+
 public class Test2 {
 
 

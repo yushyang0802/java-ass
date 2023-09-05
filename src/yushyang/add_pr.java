@@ -2,8 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package test2;
+package yushyang;
 
+import yushyang.purchase_order;
+import yushyang.poclass;
+import yushyang.pr;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
@@ -15,7 +18,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import static test2.poclass.switchToPRFrame;
+import static yushyang.poclass.switchToPRFrame;
 
 /**
  *

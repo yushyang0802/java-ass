@@ -1,6 +1,7 @@
 
-package test2;
+package yushyang;
 
+import yushyang.pr;
 import java.awt.List;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

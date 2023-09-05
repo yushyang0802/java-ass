@@ -1,5 +1,5 @@
 
-package test2;
+package yushyang;
 
 
 public class prclass {
