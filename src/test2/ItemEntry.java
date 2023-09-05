@@ -38,6 +38,8 @@ public class ItemEntry extends javax.swing.JFrame {
         ItemNameTextField = new javax.swing.JTextField();
         PriceTextField = new javax.swing.JTextField();
         AddButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        ItemIDTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,6 +54,8 @@ public class ItemEntry extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setText("Item ID:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -62,11 +66,13 @@ public class ItemEntry extends javax.swing.JFrame {
                         .addGap(86, 86, 86)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(PriceTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
-                            .addComponent(ItemNameTextField)))
+                            .addComponent(ItemNameTextField)
+                            .addComponent(ItemIDTextField)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(146, 146, 146)
                         .addComponent(AddButton)))
@@ -75,7 +81,11 @@ public class ItemEntry extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(ItemIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(ItemNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -85,18 +95,19 @@ public class ItemEntry extends javax.swing.JFrame {
                     .addComponent(PriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49)
                 .addComponent(AddButton)
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addContainerGap(101, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
+        String itemid = ItemIDTextField.getText();
         String itemName = ItemNameTextField.getText();
         String price = PriceTextField.getText();
         double itemPrice = Double.parseDouble(price);
         
-        Item item = new Item(itemName, itemPrice);
+        Item item = new Item(itemid, itemName, itemPrice);
         item.setItemName(itemName);
         item.setPrice(itemPrice);
         
@@ -115,7 +126,7 @@ public class ItemEntry extends javax.swing.JFrame {
                 // Save the new user
                 FileWriter fw = new FileWriter(file_name, true);
                 PrintWriter pw = new PrintWriter(fw);
-                pw.write(item.getItemName() + "," + item.getPrice() + "\n");
+                pw.write(item.getItemid() + "," + item.getItemName() + "," + item.getPrice() + "\n");
                 JOptionPane.showMessageDialog(null, "Item Successfully Added");
 
                 fw.close();
@@ -134,7 +145,7 @@ public class ItemEntry extends javax.swing.JFrame {
             String record;
             while ((record = br.readLine()) != null) {
                 String[] line = record.split(",");
-                if (itemName.equals(line[0])) {
+                if (itemName.equals(line[1])) {
                     return true;
                 }
             }
@@ -186,9 +197,11 @@ public class ItemEntry extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddButton;
+    private javax.swing.JTextField ItemIDTextField;
     private javax.swing.JTextField ItemNameTextField;
     private javax.swing.JTextField PriceTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,10 +4,8 @@
  */
 package test2;
 
-import java.awt.List;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,8 +23,8 @@ import javax.swing.table.DefaultTableModel;
  * @author ACER
  */
 public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
-    private DefaultTableModel model = new DefaultTableModel();
-    private String[] columnsName = {"Date","Item","Quantity","Total Sales"};
+    private final DefaultTableModel model = new DefaultTableModel();
+    private final String[] columnsName = {"Date","ItemID","Item","Quantity","Total Sales"};
     private int row =- 1;
     /**
      * Creates new form DailyItemWiseSalesEntry
@@ -39,24 +38,33 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
     private void loadAllSalesData(String file_name) {
          // Clear existing table data
         model.setRowCount(0);
-        
+
         try (FileReader fr = new FileReader(file_name);
              BufferedReader br = new BufferedReader(fr)) {
-            
+
             String record;
             while ((record = br.readLine()) != null) {
                 String[] data = record.split(",");
-                String date = data[0];
-                String itemName = data[1];
-                int itemQuantity = Integer.parseInt(data[2]);
-                
-                // Calculate total sales using the item price from item.txt
-                double itemPrice = getItemPriceFromItemFile(itemName);
-                double totalSales = itemQuantity * itemPrice;
-                
-                // Add the data to the table
-                String[] rowData = {date, itemName, String.valueOf(itemQuantity), String.valueOf(totalSales)};
-                model.addRow(rowData);
+
+                // Check if 'data' has at least 4 elements (0-based indexing)
+                if (data.length >= 4) {
+                    String date = data[0];
+                    String itemid = data[1];
+                    String itemName = data[2];
+                    int itemQuantity = Integer.parseInt(data[3]);
+
+                    // Calculate total sales using the item price from item.txt
+                    double itemPrice = getItemPriceFromItemFile(itemName);
+                    double totalSales = itemQuantity * itemPrice;
+
+                    // Add the data to the table
+                    String[] rowData = {date, itemid, itemName, String.valueOf(itemQuantity), String.valueOf(totalSales)};
+                    model.addRow(rowData);
+                } else {
+                    // Handle cases where 'data' doesn't have enough elements (invalid data format)
+                    System.err.println("Invalid data format: " + Arrays.toString(data));
+                    // You may choose to skip or log the invalid data here
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -78,15 +86,16 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
                 
                 // Check if the date matches the search date
                 if (date.equals(searchDate)) {
-                    String itemName = data[1];
-                    int itemQuantity = Integer.parseInt(data[2]);
+                    String itemid = data[1];
+                    String itemName = data[2];
+                    int itemQuantity = Integer.parseInt(data[3]);
 
                     // Calculate total sales using the item price from item.txt
                     double itemPrice = getItemPriceFromItemFile(itemName);
                     double totalSales = itemQuantity * itemPrice;
 
                     // Add the data to the table
-                    String[] rowData = {date, itemName, String.valueOf(itemQuantity), String.valueOf(totalSales)};
+                    String[] rowData = {date, itemid, itemName, String.valueOf(itemQuantity), String.valueOf(totalSales)};
                     model.addRow(rowData);
                 }
             }
@@ -103,9 +112,9 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
         String record;
         while ((record = br.readLine()) != null) {
             String[] line = record.split(",");
-            if (itemName.equals(line[0])) {
+            if (itemName.equals(line[1])) {
                 // Found the item, return its price as a double
-                return Double.parseDouble(line[1]);
+                return Double.parseDouble(line[2]);
             }
         }
 
@@ -118,7 +127,7 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
         return -1; 
     }
     
-    private void deleteSalesEntryFromFile(String file_name, String date, String itemName, int quantity) {
+    private void deleteSalesEntryFromFile(String file_name, String date, String itemid, String itemName, int quantity) {
         ArrayList<String> lines = new ArrayList<>();
 
         try (FileReader fr = new FileReader(file_name);
@@ -128,10 +137,11 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
             while ((record = br.readLine()) != null) {
                 String[] data = record.split(",");
                 String salesDate = data[0];
-                String salesItemName = data[1];
-                int salesQuantity = Integer.parseInt(data[2]);
+                String salesItemID = data[1];
+                String salesItemName = data[2];
+                int salesQuantity = Integer.parseInt(data[3]);
 
-                if (!date.equals(salesDate) || !itemName.equals(salesItemName) || quantity != salesQuantity) {
+                if (!date.equals(salesDate) || !itemid.equals(salesItemID) || !itemName.equals(salesItemName) || quantity != salesQuantity) {
                     lines.add(record); // Keep lines that should not be deleted
                 }
             }
@@ -151,6 +161,25 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "An error occurred while deleting sales data from 'sales.txt'");
         }
     }
+    
+    private boolean validateItem(String itemid, String itemName) {
+        try (FileReader fr = new FileReader("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\item.txt");
+             BufferedReader br = new BufferedReader(fr)) {
+
+            String record;
+            while ((record = br.readLine()) != null) {
+                String[] line = record.split(",");
+                if (itemid.equals(line[0]) && itemName.equals(line[1])) {
+                    return true; // Item ID and item name match an entry in item.txt
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "An error occurred while reading item data.");
+    }
+
+    return false; // Item ID and item name do not match any entry in item.txt
+}
     
     
     /**
@@ -178,6 +207,8 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         SearchByDateButton = new javax.swing.JButton();
         BackToMenuButton = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        ItemIDTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -244,6 +275,8 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Item ID:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -253,6 +286,7 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(QuantityTextField, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(ItemNameTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(DateTextField)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ItemNameLabel)
@@ -260,9 +294,10 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
                             .addComponent(QuantityLabel)
                             .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(DeleteButton)
-                            .addComponent(EditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(EditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
                         .addGap(0, 10, Short.MAX_VALUE))
-                    .addComponent(DateTextField))
+                    .addComponent(ItemIDTextField))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -287,15 +322,19 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
                 .addComponent(DateLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(DateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(ItemNameLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addGap(7, 7, 7)
+                .addComponent(ItemIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ItemNameLabel)
+                .addGap(18, 18, 18)
                 .addComponent(ItemNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(QuantityLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(QuantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
+                .addGap(18, 18, 18)
                 .addComponent(AddButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(DeleteButton)
@@ -325,6 +364,7 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
 
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
     String dateText = DateTextField.getText();
+    String itemid = ItemIDTextField.getText();
     String itemName = ItemNameTextField.getText();
     String quantity = QuantityTextField.getText();
 
@@ -358,14 +398,22 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Quantity must be a positive integer.");
         return;
     }
+    
+    // Check if the item ID and corresponding item name exist in item.txt
+    if (!validateItem(itemid, itemName)) {
+        JOptionPane.showMessageDialog(null, "Invalid item ID or item name.");
+        return;
+    }
 
     ArrayList<Item> items = readItemsFromFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\item.txt");
         boolean itemExists = false; // Flag to check if the item name exists in the file
+        double totalSales = 0.0;
 
         for (Item item : items) {
             if (itemName.equals(item.getItemName())) {
                 itemExists = true; // Item name found in the file
-                model.addRow(new Object[]{date.toString(), itemName, itemQuantity, itemQuantity * item.getPrice()});
+                totalSales = itemQuantity * item.getPrice(); // Calculate total sales
+                model.addRow(new Object[]{date.toString(), itemid, itemName, itemQuantity, totalSales});
                 break; // No need to continue checking once the item is found
             }
         }
@@ -374,7 +422,7 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Item name does not exist.");
         } else {
             // Save the sales data to "sales.txt"
-            saveSalesToFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\sales.txt", date, itemName, itemQuantity);
+            saveSalesToFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\sales.txt", date, itemid, itemName, itemQuantity, totalSales);
             JOptionPane.showMessageDialog(null, "Sales added succesfully");
         }
 
@@ -384,11 +432,11 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
         QuantityTextField.setText("");
     }
 
-    private void saveSalesToFile(String file_name, LocalDate date, String itemName, int itemQuantity) {
+    private void saveSalesToFile(String file_name, LocalDate date, String itemid, String itemName, int itemQuantity, double totalSales) {
         try (FileWriter fw = new FileWriter(file_name, true);
              PrintWriter pw = new PrintWriter(fw)) {
 
-            String salesRecord = date.toString() + "," + itemName + "," + itemQuantity;
+            String salesRecord = date.toString() + "," + itemid + "," + itemName + "," + itemQuantity + "," + totalSales;
             pw.println(salesRecord);
         } catch (IOException e) {
             e.printStackTrace();
@@ -406,9 +454,10 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
             String record;
             while ((record = br.readLine()) != null) {
                 String[] line = record.split(",");
-                String itemName = line[0];
-                double itemPrice = Double.parseDouble(line[1]);
-                Item item = new Item(itemName, itemPrice);
+                String itemid = line[0];
+                String itemName = line[1];
+                double itemPrice = Double.parseDouble(line[2]);
+                Item item = new Item(itemid, itemName, itemPrice);
                 items.add(item);
             }
 
@@ -430,17 +479,19 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
 
         // Get data from the selected row
         String date = String.valueOf(model.getValueAt(row, 0));
-        String itemName = String.valueOf(model.getValueAt(row, 1));
-        String quantity = String.valueOf(model.getValueAt(row, 2));
+        String itemid = String.valueOf(model.getValueAt(row, 1));
+        String itemName = String.valueOf(model.getValueAt(row, 2));
+        String quantity = String.valueOf(model.getValueAt(row, 3));
 
         // Remove the selected row from the table
         model.removeRow(row);
 
         // Delete the corresponding sales entry from the file
-        deleteSalesEntryFromFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\sales.txt", date, itemName, Integer.parseInt(quantity));
+        deleteSalesEntryFromFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\sales.txt", date, itemid, itemName, Integer.parseInt(quantity));
 
         // Clear the input fields and reset the selected row
         DateTextField.setText("");
+        ItemIDTextField.setText("");
         ItemNameTextField.setText("");
         QuantityTextField.setText("");
         row = -1; // Reset the selected row
@@ -452,11 +503,13 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
         row = jTable1.getSelectedRow();
         
         String date = String.valueOf(model.getValueAt(row, 0));
-        String itemName = String.valueOf(model.getValueAt(row, 1));
-        String quantity = String.valueOf(model.getValueAt(row, 2));
+        String itemid = String.valueOf(model.getValueAt(row, 1));
+        String itemName = String.valueOf(model.getValueAt(row, 2));
+        String quantity = String.valueOf(model.getValueAt(row, 3));
         
         
         DateTextField.setText(date);
+        ItemIDTextField.setText(itemid);
         ItemNameTextField.setText(itemName);
         QuantityTextField.setText(quantity);
         
@@ -481,106 +534,120 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
 
     private void EditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditButtonActionPerformed
         // Check if a row is selected
-        if (row == -1) {
-        JOptionPane.showMessageDialog(null, "Please select a row to edit.");
-        return;
-        }
-
-        String dateText = DateTextField.getText();
-        String itemName = ItemNameTextField.getText();
-        String quantity = QuantityTextField.getText();
-
-        // Validate date format
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date;
-        try {
-            date = LocalDate.parse(dateText, formatter);
-        } catch (DateTimeParseException ex) {
-            // Handle invalid date format
-            JOptionPane.showMessageDialog(null, "Invalid date format. Please use yyyy-MM-dd format.");
+            if (row == -1) {
+            JOptionPane.showMessageDialog(null, "Please select a row to edit.");
             return;
         }
 
-        // Validate item name (non-empty)
-        if (itemName.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Item name cannot be empty.");
-            return;
-        }
+        // Add bounds checking here to ensure row is valid
+        if (row >= 0 && row < model.getRowCount()) {
+            String dateText = DateTextField.getText();
+            String itemid = ItemIDTextField.getText();
+            String itemName = ItemNameTextField.getText();
+            String quantity = QuantityTextField.getText();
 
-        // Validate quantity (must be a positive integer)
-        int itemQuantity;
-        try {
-            itemQuantity = Integer.parseInt(quantity);
-            if (itemQuantity <= 0) {
-                throw new NumberFormatException();
+            // Validate date format
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate date;
+            try {
+                date = LocalDate.parse(dateText, formatter);
+            } catch (DateTimeParseException ex) {
+                // Handle invalid date format
+                JOptionPane.showMessageDialog(null, "Invalid date format. Please use yyyy-MM-dd format.");
+                return;
             }
-        } 
-        catch (NumberFormatException ex) {
-            // Handle invalid quantity
-            JOptionPane.showMessageDialog(null, "Quantity must be a positive integer.");
-            return;
-        }
 
-        // Load the item price from the item.txt file
-        double itemPrice = getItemPriceFromItemFile(itemName);
-
-        // Calculate total sales
-        double totalSales = itemQuantity * itemPrice;
-        
-        // Update the data for the selected row in the model
-        model.setValueAt(date.toString(), row, 0);
-        model.setValueAt(itemName, row, 1);
-        model.setValueAt(itemQuantity, row, 2);
-        model.setValueAt(totalSales, row, 3);
-
-        // Load all sales data from the file
-        ArrayList<String> lines = new ArrayList<>();
-
-        try (FileReader fr = new FileReader("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\sales.txt");
-             BufferedReader br = new BufferedReader(fr)) {
-
-            String record;
-            while ((record = br.readLine()) != null) {
-                lines.add(record);
+            // Validate item name (non-empty)
+            if (itemName.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Item name cannot be empty.");
+                return;
             }
-        } 
-        catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "An error occurred while loading sales data from 'sales.txt'");
-            return;
-        }
 
-        // Update the data for the selected row in the list
-        String editedSalesRecord = date.toString() + "," + itemName + "," + itemQuantity + "," + totalSales;
-        lines.set(row, editedSalesRecord);
-
-        // Write the updated list back to the file
-        try (FileWriter fw = new FileWriter("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\sales.txt");
-             BufferedWriter bw = new BufferedWriter(fw)) {
-
-            for (String line : lines) {
-                bw.write(line);
-                bw.newLine();
+            // Validate quantity (must be a positive integer)
+            int itemQuantity;
+            try {
+                itemQuantity = Integer.parseInt(quantity);
+                if (itemQuantity <= 0) {
+                    throw new NumberFormatException();
+                }
+            } 
+            catch (NumberFormatException ex) {
+                // Handle invalid quantity
+                JOptionPane.showMessageDialog(null, "Quantity must be a positive integer.");
+                return;
             }
-        } 
-        catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "An error occurred while saving updated sales data to 'sales.txt'");
-            return;
+            
+            if (!validateItem(itemid, itemName)) {
+                JOptionPane.showMessageDialog(null, "Invalid item ID or item name.");
+                return;
+            }
+
+            // Load the item price from the item.txt file
+            double itemPrice = getItemPriceFromItemFile(itemName);
+
+            // Calculate total sales
+            double totalSales = itemQuantity * itemPrice;
+
+            // Update the data for the selected row in the model
+            model.setValueAt(date.toString(), row, 0);
+            model.setValueAt(itemid, row, 1);
+            model.setValueAt(itemName, row, 2);
+            model.setValueAt(itemQuantity, row, 3);
+            model.setValueAt(totalSales, row, 4);
+
+            // Load all sales data from the file
+            ArrayList<String> lines = new ArrayList<>();
+
+            try (FileReader fr = new FileReader("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\sales.txt");
+                 BufferedReader br = new BufferedReader(fr)) {
+
+                String record;
+                while ((record = br.readLine()) != null) {
+                    lines.add(record);
+                }
+            } 
+            catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "An error occurred while loading sales data from 'sales.txt'");
+                return;
+            }
+
+            // Update the data for the selected row in the list
+            String editedSalesRecord = date.toString() + ","+ itemid + "," + itemName + "," + itemQuantity + "," + totalSales;
+            lines.set(row, editedSalesRecord);
+
+            // Write the updated list back to the file
+            try (FileWriter fw = new FileWriter("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\sales.txt");
+                 BufferedWriter bw = new BufferedWriter(fw)) {
+
+                for (String line : lines) {
+                    bw.write(line);
+                    bw.newLine();
+                }
+            } 
+            catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "An error occurred while saving updated sales data to 'sales.txt'");
+                return;
+            }
+
+            // Refresh the table with the updated data
+            loadAllSalesData("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\sales.txt");
+
+            // Clear the input fields
+            DateTextField.setText("");
+            ItemIDTextField.setText("");
+            ItemNameTextField.setText("");
+            QuantityTextField.setText("");
+
+            // Reset the selected row
+            row = -1;
+
+            JOptionPane.showMessageDialog(null, "Sales entry updated successfully.");
+        } else {
+            // Handle the case where the selected row is invalid
+            JOptionPane.showMessageDialog(null, "Please select a valid row to edit.");
         }
-
-        // Refresh the table with the updated data
-        loadAllSalesData("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\sales.txt");
-
-        // Clear the input fields
-        DateTextField.setText("");
-        ItemNameTextField.setText("");
-        QuantityTextField.setText("");
-
-        // Reset the selected row
-        row = -1;
-
-        JOptionPane.showMessageDialog(null, "Sales entry updated successfully.");
     }//GEN-LAST:event_EditButtonActionPerformed
 
     private void BackToMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackToMenuButtonActionPerformed
@@ -633,12 +700,14 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
     private javax.swing.JTextField DateTextField;
     private javax.swing.JButton DeleteButton;
     private javax.swing.JButton EditButton;
+    private javax.swing.JTextField ItemIDTextField;
     private javax.swing.JLabel ItemNameLabel;
     private javax.swing.JTextField ItemNameTextField;
     private javax.swing.JLabel QuantityLabel;
     private javax.swing.JTextField QuantityTextField;
     private javax.swing.JButton SearchByDateButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
