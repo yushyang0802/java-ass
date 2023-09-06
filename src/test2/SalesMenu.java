@@ -153,7 +153,9 @@ public class SalesMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_SupplierEntryButtonActionPerformed
 
     private void DailyItemWiseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DailyItemWiseButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        DailyItemWiseSalesEntry dailyitemwise = new DailyItemWiseSalesEntry();
+        dailyitemwise.setVisible(true);
     }//GEN-LAST:event_DailyItemWiseButtonActionPerformed
 
     private void CreatePRButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreatePRButtonActionPerformed
