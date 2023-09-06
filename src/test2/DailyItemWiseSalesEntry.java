@@ -9,12 +9,9 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,164 +21,30 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
     private final DefaultTableModel model = new DefaultTableModel();
+    private final DefaultTableModel originalModel;
     private final String[] columnsName = {"Date","ItemID","Item","Quantity","Total Sales"};
     private int row =- 1;
+   
+
     /**
-     * Creates new form DailyItemWiseSalesEntry
+     * Creates new form DailyItemWiseSalesEntry1
      */
     public DailyItemWiseSalesEntry() {
         initComponents();
         model.setColumnIdentifiers(columnsName);
-        loadAllSalesData("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\sales.txt");
+        originalModel = (DefaultTableModel) jTable1.getModel();
+        loadDataFromSalesEntryFile();
     }
     
-    private void loadAllSalesData(String file_name) {
-         // Clear existing table data
-        model.setRowCount(0);
+    private void loadDataFromSalesEntryFile() {
+        ArrayList<SalesEntry> salesEntries = SalesEntry.readSalesEntriesFromFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\salesentry.txt");
 
-        try (FileReader fr = new FileReader(file_name);
-             BufferedReader br = new BufferedReader(fr)) {
-
-            String record;
-            while ((record = br.readLine()) != null) {
-                String[] data = record.split(",");
-
-                // Check if 'data' has at least 4 elements (0-based indexing)
-                if (data.length >= 4) {
-                    String date = data[0];
-                    String itemid = data[1];
-                    String itemName = data[2];
-                    int itemQuantity = Integer.parseInt(data[3]);
-
-                    // Calculate total sales using the item price from item.txt
-                    double itemPrice = getItemPriceFromItemFile(itemName);
-                    double totalSales = itemQuantity * itemPrice;
-
-                    // Add the data to the table
-                    String[] rowData = {date, itemid, itemName, String.valueOf(itemQuantity), String.valueOf(totalSales)};
-                    model.addRow(rowData);
-                } else {
-                    // Handle cases where 'data' doesn't have enough elements (invalid data format)
-                    System.err.println("Invalid data format: " + Arrays.toString(data));
-                    // You may choose to skip or log the invalid data here
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "An error occurred while loading sales data from 'sales.txt'");
+        for (SalesEntry entry : salesEntries) {
+            Object[] row = {entry.getDate(), entry.getItemid(), entry.getItemName(), entry.getQuantity(), entry.getTotalSales()};
+            model.addRow(row);
         }
     }
-     
-     private void loadSalesDataByDate(String file_name, String searchDate) {
-        // Clear existing table data
-        model.setRowCount(0);
 
-        try (FileReader fr = new FileReader(file_name);
-             BufferedReader br = new BufferedReader(fr)) {
-            
-            String record;
-            while ((record = br.readLine()) != null) {
-                String[] data = record.split(",");
-                String date = data[0];
-                
-                // Check if the date matches the search date
-                if (date.equals(searchDate)) {
-                    String itemid = data[1];
-                    String itemName = data[2];
-                    int itemQuantity = Integer.parseInt(data[3]);
-
-                    // Calculate total sales using the item price from item.txt
-                    double itemPrice = getItemPriceFromItemFile(itemName);
-                    double totalSales = itemQuantity * itemPrice;
-
-                    // Add the data to the table
-                    String[] rowData = {date, itemid, itemName, String.valueOf(itemQuantity), String.valueOf(totalSales)};
-                    model.addRow(rowData);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "An error occurred while loading sales data from 'sales.txt'");
-        }
-    }
-     
-    private double getItemPriceFromItemFile(String itemName) {
-        try (FileReader fr = new FileReader("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\item.txt");
-         BufferedReader br = new BufferedReader(fr)) {
-
-        String record;
-        while ((record = br.readLine()) != null) {
-            String[] line = record.split(",");
-            if (itemName.equals(line[1])) {
-                // Found the item, return its price as a double
-                return Double.parseDouble(line[2]);
-            }
-        }
-
-        } 
-        catch (IOException e) {
-        JOptionPane.showMessageDialog(null, "An error occurred while reading item data.");
-        }
-
-        
-        return -1; 
-    }
-    
-    private void deleteSalesEntryFromFile(String file_name, String date, String itemid, String itemName, int quantity) {
-        ArrayList<String> lines = new ArrayList<>();
-
-        try (FileReader fr = new FileReader(file_name);
-             BufferedReader br = new BufferedReader(fr)) {
-
-            String record;
-            while ((record = br.readLine()) != null) {
-                String[] data = record.split(",");
-                String salesDate = data[0];
-                String salesItemID = data[1];
-                String salesItemName = data[2];
-                int salesQuantity = Integer.parseInt(data[3]);
-
-                if (!date.equals(salesDate) || !itemid.equals(salesItemID) || !itemName.equals(salesItemName) || quantity != salesQuantity) {
-                    lines.add(record); // Keep lines that should not be deleted
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "An error occurred while reading sales data.");
-        }
-
-        try (FileWriter fw = new FileWriter(file_name);
-             PrintWriter pw = new PrintWriter(fw)) {
-
-            for (String line : lines) {
-                pw.println(line); // Write back the lines that should not be deleted
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "An error occurred while deleting sales data from 'sales.txt'");
-        }
-    }
-    
-    private boolean validateItem(String itemid, String itemName) {
-        try (FileReader fr = new FileReader("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\item.txt");
-             BufferedReader br = new BufferedReader(fr)) {
-
-            String record;
-            while ((record = br.readLine()) != null) {
-                String[] line = record.split(",");
-                if (itemid.equals(line[0]) && itemName.equals(line[1])) {
-                    return true; // Item ID and item name match an entry in item.txt
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "An error occurred while reading item data.");
-    }
-
-    return false; // Item ID and item name do not match any entry in item.txt
-}
-    
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -191,38 +54,30 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        DailyItemWiseLabel = new javax.swing.JLabel();
-        DateLabel = new javax.swing.JLabel();
-        ItemNameLabel = new javax.swing.JLabel();
-        QuantityLabel = new javax.swing.JLabel();
-        DateTextField = new javax.swing.JTextField();
-        ItemNameTextField = new javax.swing.JTextField();
-        QuantityTextField = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        AddButton = new javax.swing.JButton();
-        DeleteButton = new javax.swing.JButton();
-        EditButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        SearchByDateButton = new javax.swing.JButton();
-        BackToMenuButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        DateTextField = new javax.swing.JTextField();
         ItemIDTextField = new javax.swing.JTextField();
+        ItemNameTextField = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        QuantityTextField = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        SearchByDateTextField = new javax.swing.JTextField();
+        AddSalesEntryButton = new javax.swing.JButton();
+        DeleteSalesEntryButton = new javax.swing.JButton();
+        EditSalesEntryButton = new javax.swing.JButton();
+        SearchByDateButton = new javax.swing.JButton();
+        ResetButton = new javax.swing.JButton();
+        BacktoMenuButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        DailyItemWiseLabel.setFont(new java.awt.Font("Lucida Sans", 0, 24)); // NOI18N
-        DailyItemWiseLabel.setText("Daily Item-Wise Sales Entry");
-
-        DateLabel.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
-        DateLabel.setText("Date:");
-
-        ItemNameLabel.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
-        ItemNameLabel.setText("Item Name: ");
-
-        QuantityLabel.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
-        QuantityLabel.setText("Quantity:");
+        jLabel1.setFont(new java.awt.Font("Lucida Sans", 0, 24)); // NOI18N
+        jLabel1.setText("Daily Item Wise Sales Entry");
 
         jTable1.setModel(model);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -232,32 +87,44 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        AddButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 14)); // NOI18N
-        AddButton.setText("ADD");
-        AddButton.addActionListener(new java.awt.event.ActionListener() {
+        jLabel2.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
+        jLabel2.setText("Date:");
+
+        jLabel3.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
+        jLabel3.setText("Item ID:");
+
+        jLabel4.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
+        jLabel4.setText("Item Name:");
+
+        jLabel5.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
+        jLabel5.setText("Quantity:");
+
+        jLabel6.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
+        jLabel6.setText("Search By Date:");
+
+        AddSalesEntryButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 14)); // NOI18N
+        AddSalesEntryButton.setText("ADD");
+        AddSalesEntryButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddButtonActionPerformed(evt);
+                AddSalesEntryButtonActionPerformed(evt);
             }
         });
 
-        DeleteButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 14)); // NOI18N
-        DeleteButton.setText("DELETE");
-        DeleteButton.addActionListener(new java.awt.event.ActionListener() {
+        DeleteSalesEntryButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 14)); // NOI18N
+        DeleteSalesEntryButton.setText("DELETE");
+        DeleteSalesEntryButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DeleteButtonActionPerformed(evt);
+                DeleteSalesEntryButtonActionPerformed(evt);
             }
         });
 
-        EditButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 14)); // NOI18N
-        EditButton.setText("EDIT");
-        EditButton.addActionListener(new java.awt.event.ActionListener() {
+        EditSalesEntryButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 14)); // NOI18N
+        EditSalesEntryButton.setText("EDIT");
+        EditSalesEntryButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EditButtonActionPerformed(evt);
+                EditSalesEntryButtonActionPerformed(evt);
             }
         });
-
-        jLabel1.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
-        jLabel1.setText("Search by Date:");
 
         SearchByDateButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 14)); // NOI18N
         SearchByDateButton.setText("Search");
@@ -267,237 +134,213 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
             }
         });
 
-        BackToMenuButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 14)); // NOI18N
-        BackToMenuButton.setText("Back");
-        BackToMenuButton.addActionListener(new java.awt.event.ActionListener() {
+        ResetButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 14)); // NOI18N
+        ResetButton.setText("Reset");
+        ResetButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BackToMenuButtonActionPerformed(evt);
+                ResetButtonActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("Item ID:");
+        BacktoMenuButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 14)); // NOI18N
+        BacktoMenuButton.setText("Back");
+        BacktoMenuButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BacktoMenuButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(QuantityTextField, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(ItemNameTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(51, 51, 51)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(DateTextField)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ItemNameLabel)
-                            .addComponent(DateLabel)
-                            .addComponent(QuantityLabel)
-                            .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(DeleteButton)
-                            .addComponent(EditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(0, 10, Short.MAX_VALUE))
-                    .addComponent(ItemIDTextField))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(ItemIDTextField)
+                    .addComponent(ItemNameTextField)
+                    .addComponent(jLabel5)
+                    .addComponent(QuantityTextField)
+                    .addComponent(AddSalesEntryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(DeleteSalesEntryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(EditSalesEntryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SearchByDateButton))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46))
+                        .addComponent(SearchByDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
+                        .addComponent(SearchByDateButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(ResetButton)))
+                .addGap(80, 80, 80))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(DailyItemWiseLabel)
-                .addGap(43, 43, 43)
-                .addComponent(BackToMenuButton)
-                .addContainerGap())
+                .addComponent(jLabel1)
+                .addGap(70, 70, 70)
+                .addComponent(BacktoMenuButton)
+                .addGap(15, 15, 15))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(92, 92, 92)
-                .addComponent(DateLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(DateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(102, 102, 102)
                 .addComponent(jLabel2)
-                .addGap(7, 7, 7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(DateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ItemIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ItemNameLabel)
                 .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ItemNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(QuantityLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(QuantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(AddButton)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(QuantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51)
+                .addComponent(AddSalesEntryButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(DeleteButton)
+                .addComponent(DeleteSalesEntryButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(EditButton)
-                .addContainerGap(35, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(EditSalesEntryButton)
+                .addContainerGap(38, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(DailyItemWiseLabel))
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(BackToMenuButton)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addContainerGap()
+                        .addComponent(BacktoMenuButton)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SearchByDateButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
+                    .addComponent(jLabel6)
+                    .addComponent(SearchByDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SearchByDateButton)
+                    .addComponent(ResetButton))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
-    String dateText = DateTextField.getText();
-    String itemid = ItemIDTextField.getText();
-    String itemName = ItemNameTextField.getText();
-    String quantity = QuantityTextField.getText();
+    private void AddSalesEntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddSalesEntryButtonActionPerformed
+        String datetext = DateTextField.getText();
+        String itemid = ItemIDTextField.getText();
+        String itemname = ItemNameTextField.getText();
+        String quantityText = QuantityTextField.getText();
+        
+        try {
+        LocalDate date = LocalDate.parse(datetext); // Parse the date from the text field
 
-    // Validate date format
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    LocalDate date;
-    try {
-        date = LocalDate.parse(dateText, formatter);
-    } catch (DateTimeParseException ex) {
-        // Handle invalid date format
-        JOptionPane.showMessageDialog(null, "Invalid date format. Please use yyyy-MM-dd format.");
-        return;
-    }
-
-    // Validate item name (non-empty)
-    if (itemName.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Item name cannot be empty.");
-        return;
-    }
-
-    // Validate quantity (must be a positive integer)
-    int itemQuantity;
-    try {
-        itemQuantity = Integer.parseInt(quantity);
-        if (itemQuantity <= 0) {
-            throw new NumberFormatException();
-        }
-    } 
-    catch (NumberFormatException ex) {
-        // Handle invalid quantity
-        JOptionPane.showMessageDialog(null, "Quantity must be a positive integer.");
-        return;
-    }
-    
-    // Check if the item ID and corresponding item name exist in item.txt
-    if (!validateItem(itemid, itemName)) {
-        JOptionPane.showMessageDialog(null, "Invalid item ID or item name.");
-        return;
-    }
-
-    ArrayList<Item> items = readItemsFromFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\item.txt");
-        boolean itemExists = false; // Flag to check if the item name exists in the file
-        double totalSales = 0.0;
-
-        for (Item item : items) {
-            if (itemName.equals(item.getItemName())) {
-                itemExists = true; // Item name found in the file
-                totalSales = itemQuantity * item.getPrice(); // Calculate total sales
-                model.addRow(new Object[]{date.toString(), itemid, itemName, itemQuantity, totalSales});
-                break; // No need to continue checking once the item is found
-            }
-        }
-
-        if (!itemExists) {
-            JOptionPane.showMessageDialog(null, "Item name does not exist.");
+        // Validate the date
+        if (date.isAfter(LocalDate.now())) {
+            // Show an error message for future dates
+            JOptionPane.showMessageDialog(this, "Invalid date. Date cannot be in the future.", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            // Save the sales data to "sales.txt"
-            saveSalesToFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\sales.txt", date, itemid, itemName, itemQuantity, totalSales);
-            JOptionPane.showMessageDialog(null, "Sales added succesfully");
-        }
+            // Validate the quantity
+            if (SalesEntry.isValidQuantity(quantityText)) {
+                int quantity = Integer.parseInt(quantityText); // Parse quantity as an integer
 
-        // Clear the input fields
-        DateTextField.setText("");
-        ItemNameTextField.setText("");
-        QuantityTextField.setText("");
-    }
+                // Read and validate the item information from "item.txt"
+                boolean itemValid = false;
+                try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\item.txt"))) {
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        String[] parts = line.split(",");
+                        String itemFromFileId = parts[0].trim();
+                        String itemFromFileName = parts[1].trim();
+                        double price = Double.parseDouble(parts[2].trim());
 
-    private void saveSalesToFile(String file_name, LocalDate date, String itemid, String itemName, int itemQuantity, double totalSales) {
-        try (FileWriter fw = new FileWriter(file_name, true);
-             PrintWriter pw = new PrintWriter(fw)) {
+                        if (itemFromFileId.equals(itemid) && itemFromFileName.equals(itemname)) {
+                            itemValid = true;
+                            // Create a SalesEntry object
+                            SalesEntry salesEntry = new SalesEntry(itemid, itemname, date, quantity);
+                            
+                            double totalSales = salesEntry.getTotalSales();
 
-            String salesRecord = date.toString() + "," + itemid + "," + itemName + "," + itemQuantity + "," + totalSales;
-            pw.println(salesRecord);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle the error
-            JOptionPane.showMessageDialog(null, "An error occurred while saving sales data to 'sales.txt'");
-        }
-    }
+                            // Add the sales entry to the table model
+                            Object[] row = { date, itemid, itemname, quantity, totalSales };
+                            model.addRow(row);
 
-    private ArrayList<Item> readItemsFromFile(String file_name) {
-        ArrayList<Item> items = new ArrayList<>();
+                            // Save the sales entry information to "salesentry.txt"
+                            try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\salesentry.txt", true))) {
+                                writer.write(date + "," + itemid + "," + itemname + "," + quantity + "," + salesEntry.getTotalSales());
+                                writer.newLine();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
 
-        try (FileReader fr = new FileReader(file_name);
-             BufferedReader br = new BufferedReader(fr)) {
+                            // Clear the input fields
+                            DateTextField.setText("");
+                            ItemIDTextField.setText("");
+                            ItemNameTextField.setText("");
+                            QuantityTextField.setText("");
 
-            String record;
-            while ((record = br.readLine()) != null) {
-                String[] line = record.split(",");
-                String itemid = line[0];
-                String itemName = line[1];
-                double itemPrice = Double.parseDouble(line[2]);
-                Item item = new Item(itemid, itemName, itemPrice);
-                items.add(item);
+                            break; // Stop searching once a valid item is found
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (!itemValid) {
+                    // Show an error message if the item information is not valid
+                    JOptionPane.showMessageDialog(this, "Invalid item ID or item name.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                // Show an error message for invalid quantity
+                JOptionPane.showMessageDialog(this, "Invalid quantity. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-
-        } 
-        catch (IOException e) {
-            e.printStackTrace();
-            // Handle the error
         }
-    
-    return items;
-    }//GEN-LAST:event_AddButtonActionPerformed
+    } catch (DateTimeParseException e) {
+        // Handle parsing errors (invalid date format)
+        JOptionPane.showMessageDialog(this, "Invalid date format. Please use yyyy-MM-dd.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
 
-    private void DeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteButtonActionPerformed
-        // Check if a row is selected
-        if (row == -1) {
-            JOptionPane.showMessageDialog(null, "Please select a row to delete.");
-            return;
+    }//GEN-LAST:event_AddSalesEntryButtonActionPerformed
+
+    private void DeleteSalesEntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteSalesEntryButtonActionPerformed
+        if (row != -1) {
+            // Get the data of the selected row
+            String date = String.valueOf(model.getValueAt(row, 0));
+            String itemid = String.valueOf(model.getValueAt(row, 1));
+            String itemName = String.valueOf(model.getValueAt(row, 2));
+            String quantity = String.valueOf(model.getValueAt(row, 3));
+
+            // Create a SalesEntry object to represent the selected row
+            SalesEntry deletedEntry = new SalesEntry(itemid, itemName, LocalDate.parse(date), Integer.parseInt(quantity));
+
+            // Remove the selected row from the table model
+            model.removeRow(row);
+
+            // Update the "salesentry.txt" file by removing the deleted entry
+            ArrayList<SalesEntry> salesEntries = SalesEntry.readSalesEntriesFromFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\salesentry.txt");
+            salesEntries.remove(deletedEntry);
+            SalesEntry.updateSalesEntryFile(salesEntries, "C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\salesentry.txt");
+
+            // Clear the input fields
+            DateTextField.setText("");
+            ItemIDTextField.setText("");
+            ItemNameTextField.setText("");
+            QuantityTextField.setText("");
+
+            row = -1; // Reset the selected row
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row to delete.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        // Get data from the selected row
-        String date = String.valueOf(model.getValueAt(row, 0));
-        String itemid = String.valueOf(model.getValueAt(row, 1));
-        String itemName = String.valueOf(model.getValueAt(row, 2));
-        String quantity = String.valueOf(model.getValueAt(row, 3));
-
-        // Remove the selected row from the table
-        model.removeRow(row);
-
-        // Delete the corresponding sales entry from the file
-        deleteSalesEntryFromFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\sales.txt", date, itemid, itemName, Integer.parseInt(quantity));
-
-        // Clear the input fields and reset the selected row
-        DateTextField.setText("");
-        ItemIDTextField.setText("");
-        ItemNameTextField.setText("");
-        QuantityTextField.setText("");
-        row = -1; // Reset the selected row
-
-        JOptionPane.showMessageDialog(null, "Sales entry deleted successfully.");
-    }//GEN-LAST:event_DeleteButtonActionPerformed
+    }//GEN-LAST:event_DeleteSalesEntryButtonActionPerformed
 
     private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
         row = jTable1.getSelectedRow();
@@ -512,149 +355,140 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
         ItemIDTextField.setText(itemid);
         ItemNameTextField.setText(itemName);
         QuantityTextField.setText(quantity);
-        
     }//GEN-LAST:event_jTable1MouseReleased
 
-    private void SearchByDateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchByDateButtonActionPerformed
-        String searchDate = jTextField1.getText();
-    
-        // Validate the date format (optional)
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        try {
-            LocalDate.parse(searchDate, formatter);
-        } 
-        catch (DateTimeParseException ex) {
-            JOptionPane.showMessageDialog(null, "Invalid date format. Please use yyyy-MM-dd format.");
-            return;
-        }
+    private void EditSalesEntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditSalesEntryButtonActionPerformed
+        // Check if a row is selected
+        if (row != -1) {
+            String datetext = DateTextField.getText();
+            String itemid = ItemIDTextField.getText();
+            String itemname = ItemNameTextField.getText();
+            String quantityText = QuantityTextField.getText();
 
-        // Load sales data by the entered date
-        loadSalesDataByDate("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\sales.txt", searchDate);
+            try {
+                LocalDate date = LocalDate.parse(datetext); // Parse the date from the text field
+
+                // Validate the date
+                if (date.isAfter(LocalDate.now())) {
+                    // Show an error message for future dates
+                    JOptionPane.showMessageDialog(this, "Invalid date. Date cannot be in the future.", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    // Validate the quantity
+                    if (SalesEntry.isValidQuantity(quantityText)) {
+                        int quantity = Integer.parseInt(quantityText); // Parse quantity as an integer
+
+                        // Read and validate the item information from "item.txt"
+                        boolean itemValid = false;
+                        try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\item.txt"))) {
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                String[] parts = line.split(",");
+                                String itemFromFileId = parts[0].trim();
+                                String itemFromFileName = parts[1].trim();
+                                double price = Double.parseDouble(parts[2].trim());
+
+                                if (itemFromFileId.equals(itemid) && itemFromFileName.equals(itemname)) {
+                                    itemValid = true;
+                                    // Update the SalesEntry object for the selected row
+                                    SalesEntry updatedEntry = new SalesEntry(itemid, itemname, date, quantity);
+
+                                    double totalSales = updatedEntry.getTotalSales();
+
+                                    // Update the table model with the edited data
+                                    model.setValueAt(date, row, 0);
+                                    model.setValueAt(itemid, row, 1);
+                                    model.setValueAt(itemname, row, 2);
+                                    model.setValueAt(quantity, row, 3);
+                                    model.setValueAt(totalSales, row, 4);
+
+                                    // Update the "salesentry.txt" file
+                                    ArrayList<SalesEntry> salesEntries = SalesEntry.readSalesEntriesFromFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\salesentry.txt");
+                                    salesEntries.set(row, updatedEntry);
+                                    SalesEntry.updateSalesEntryFile(salesEntries, "C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\salesentry.txt");
+
+                                    // Clear the input fields
+                                    DateTextField.setText("");
+                                    ItemIDTextField.setText("");
+                                    ItemNameTextField.setText("");
+                                    QuantityTextField.setText("");
+
+                                    row = -1; // Reset the selected row
+                                    break; // Stop searching once a valid item is found
+                                }
+                            }
+                        } 
+                        catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (!itemValid) {
+                            // Show an error message if the item information is not valid
+                            JOptionPane.showMessageDialog(this, "Invalid item ID or item name.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } 
+                    else {
+                        // Show an error message for invalid quantity
+                        JOptionPane.showMessageDialog(this, "Invalid quantity. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            } 
+            catch (DateTimeParseException e) {
+                // Handle parsing errors (invalid date format)
+                JOptionPane.showMessageDialog(this, "Invalid date format. Please use yyyy-MM-dd.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } 
+        else {
+            JOptionPane.showMessageDialog(this, "Please select a row to edit.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_EditSalesEntryButtonActionPerformed
+
+    private void SearchByDateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchByDateButtonActionPerformed
+        String searchDateText = SearchByDateTextField.getText();
+
+        // Check if the search date is valid
+        try {
+            LocalDate searchDate = LocalDate.parse(searchDateText);
+
+            // Create a filtered table model
+            DefaultTableModel filteredModel = new DefaultTableModel();
+            filteredModel.setColumnIdentifiers(columnsName);
+
+            // Iterate through the current table model and filter entries by date
+            for (int i = 0; i < model.getRowCount(); i++) {
+                LocalDate entryDate = LocalDate.parse(model.getValueAt(i, 0).toString());
+                if (entryDate.equals(searchDate)) {
+                    Object[] row = {
+                        model.getValueAt(i, 0), // Date
+                        model.getValueAt(i, 1), // ItemID
+                        model.getValueAt(i, 2), // ItemName
+                        model.getValueAt(i, 3), // Quantity
+                        model.getValueAt(i, 4)  // Total Sales
+                    };
+                    filteredModel.addRow(row);
+                }
+            }
+
+            // Set the filtered model to the table
+            jTable1.setModel(filteredModel);
+        } 
+        catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "Invalid date format. Please use yyyy-MM-dd.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_SearchByDateButtonActionPerformed
 
-    private void EditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditButtonActionPerformed
-        // Check if a row is selected
-            if (row == -1) {
-            JOptionPane.showMessageDialog(null, "Please select a row to edit.");
-            return;
-        }
+    private void ResetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetButtonActionPerformed
+        // Replace the current table model with the copy to reset the table
+        jTable1.setModel(originalModel);
 
-        // Add bounds checking here to ensure row is valid
-        if (row >= 0 && row < model.getRowCount()) {
-            String dateText = DateTextField.getText();
-            String itemid = ItemIDTextField.getText();
-            String itemName = ItemNameTextField.getText();
-            String quantity = QuantityTextField.getText();
+        // Clear any search or filter fields if needed
+        SearchByDateTextField.setText("");
+    }//GEN-LAST:event_ResetButtonActionPerformed
 
-            // Validate date format
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate date;
-            try {
-                date = LocalDate.parse(dateText, formatter);
-            } catch (DateTimeParseException ex) {
-                // Handle invalid date format
-                JOptionPane.showMessageDialog(null, "Invalid date format. Please use yyyy-MM-dd format.");
-                return;
-            }
-
-            // Validate item name (non-empty)
-            if (itemName.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Item name cannot be empty.");
-                return;
-            }
-
-            // Validate quantity (must be a positive integer)
-            int itemQuantity;
-            try {
-                itemQuantity = Integer.parseInt(quantity);
-                if (itemQuantity <= 0) {
-                    throw new NumberFormatException();
-                }
-            } 
-            catch (NumberFormatException ex) {
-                // Handle invalid quantity
-                JOptionPane.showMessageDialog(null, "Quantity must be a positive integer.");
-                return;
-            }
-            
-            if (!validateItem(itemid, itemName)) {
-                JOptionPane.showMessageDialog(null, "Invalid item ID or item name.");
-                return;
-            }
-
-            // Load the item price from the item.txt file
-            double itemPrice = getItemPriceFromItemFile(itemName);
-
-            // Calculate total sales
-            double totalSales = itemQuantity * itemPrice;
-
-            // Update the data for the selected row in the model
-            model.setValueAt(date.toString(), row, 0);
-            model.setValueAt(itemid, row, 1);
-            model.setValueAt(itemName, row, 2);
-            model.setValueAt(itemQuantity, row, 3);
-            model.setValueAt(totalSales, row, 4);
-
-            // Load all sales data from the file
-            ArrayList<String> lines = new ArrayList<>();
-
-            try (FileReader fr = new FileReader("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\sales.txt");
-                 BufferedReader br = new BufferedReader(fr)) {
-
-                String record;
-                while ((record = br.readLine()) != null) {
-                    lines.add(record);
-                }
-            } 
-            catch (IOException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "An error occurred while loading sales data from 'sales.txt'");
-                return;
-            }
-
-            // Update the data for the selected row in the list
-            String editedSalesRecord = date.toString() + ","+ itemid + "," + itemName + "," + itemQuantity + "," + totalSales;
-            lines.set(row, editedSalesRecord);
-
-            // Write the updated list back to the file
-            try (FileWriter fw = new FileWriter("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\sales.txt");
-                 BufferedWriter bw = new BufferedWriter(fw)) {
-
-                for (String line : lines) {
-                    bw.write(line);
-                    bw.newLine();
-                }
-            } 
-            catch (IOException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "An error occurred while saving updated sales data to 'sales.txt'");
-                return;
-            }
-
-            // Refresh the table with the updated data
-            loadAllSalesData("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\sales.txt");
-
-            // Clear the input fields
-            DateTextField.setText("");
-            ItemIDTextField.setText("");
-            ItemNameTextField.setText("");
-            QuantityTextField.setText("");
-
-            // Reset the selected row
-            row = -1;
-
-            JOptionPane.showMessageDialog(null, "Sales entry updated successfully.");
-        } else {
-            // Handle the case where the selected row is invalid
-            JOptionPane.showMessageDialog(null, "Please select a valid row to edit.");
-        }
-    }//GEN-LAST:event_EditButtonActionPerformed
-
-    private void BackToMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackToMenuButtonActionPerformed
+    private void BacktoMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BacktoMenuButtonActionPerformed
         this.dispose();
-        SalesMenu salesMenu = new SalesMenu();
-        salesMenu.setVisible(true);
-    }//GEN-LAST:event_BackToMenuButtonActionPerformed
+        SalesMenu salesmenu = new SalesMenu();
+        salesmenu.setVisible(true);
+    }//GEN-LAST:event_BacktoMenuButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -683,6 +517,8 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -693,23 +529,24 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AddButton;
-    private javax.swing.JButton BackToMenuButton;
-    private javax.swing.JLabel DailyItemWiseLabel;
-    private javax.swing.JLabel DateLabel;
+    private javax.swing.JButton AddSalesEntryButton;
+    private javax.swing.JButton BacktoMenuButton;
     private javax.swing.JTextField DateTextField;
-    private javax.swing.JButton DeleteButton;
-    private javax.swing.JButton EditButton;
+    private javax.swing.JButton DeleteSalesEntryButton;
+    private javax.swing.JButton EditSalesEntryButton;
     private javax.swing.JTextField ItemIDTextField;
-    private javax.swing.JLabel ItemNameLabel;
     private javax.swing.JTextField ItemNameTextField;
-    private javax.swing.JLabel QuantityLabel;
     private javax.swing.JTextField QuantityTextField;
+    private javax.swing.JButton ResetButton;
     private javax.swing.JButton SearchByDateButton;
+    private javax.swing.JTextField SearchByDateTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
