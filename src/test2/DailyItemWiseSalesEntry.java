@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
     private final DefaultTableModel model = new DefaultTableModel();
     private final DefaultTableModel originalModel;
-    private final String[] columnsName = {"Date","ItemID","Item","Quantity","Total Sales"};
+    private final String[] columnsName = {"Date","ItemID","Item","Supplier ID","Supplier Name","Quantity","Total Sales"};
     private int row =- 1;
    
 
@@ -40,7 +40,7 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
         ArrayList<SalesEntry> salesEntries = SalesEntry.readSalesEntriesFromFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\salesentry.txt");
 
         for (SalesEntry entry : salesEntries) {
-            Object[] row = {entry.getDate(), entry.getItemid(), entry.getItemName(), entry.getQuantity(), entry.getTotalSales()};
+            Object[] row = {entry.getDate(), entry.getID(), entry.getName(), entry.getSupplierID(), entry.getSupplierName(), entry.getQuantity(), entry.getTotalSales()};
             model.addRow(row);
         }
     }
@@ -255,29 +255,32 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
 
                 // Read and validate the item information from "item.txt"
                 boolean itemValid = false;
-                try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\item.txt"))) {
+                try (BufferedReader br = new BufferedReader(new FileReader("Items.txt"))) {
                     String line;
                     while ((line = br.readLine()) != null) {
                         String[] parts = line.split(",");
                         String itemFromFileId = parts[0].trim();
                         String itemFromFileName = parts[1].trim();
+                        String supplierID = parts[3].trim();
+                        String supplierName = parts[4].trim();
                         double price = Double.parseDouble(parts[2].trim());
 
                         if (itemFromFileId.equals(itemid) && itemFromFileName.equals(itemname)) {
                             itemValid = true;
                             // Create a SalesEntry object
-                            SalesEntry salesEntry = new SalesEntry(itemid, itemname, date, quantity);
+                            SalesEntry salesEntry = new SalesEntry(itemid, itemname, supplierID, supplierName, date, quantity);
                             
                             double totalSales = salesEntry.getTotalSales();
 
                             // Add the sales entry to the table model
-                            Object[] row = { date, itemid, itemname, quantity, totalSales };
+                            Object[] row = { date, itemid, itemname, supplierID, supplierName, quantity, totalSales };
                             model.addRow(row);
 
                             // Save the sales entry information to "salesentry.txt"
                             try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\salesentry.txt", true))) {
-                                writer.write(date + "," + itemid + "," + itemname + "," + quantity + "," + salesEntry.getTotalSales());
-                                writer.newLine();
+                                String entryLine = date + "," + itemid + "," + itemname + "," + supplierID + "," + supplierName + "," + quantity + "," + salesEntry.getTotalSales();
+                                writer.write(entryLine);
+                                writer.newLine(); // Add a newline character to separate entries
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -317,10 +320,12 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
             String date = String.valueOf(model.getValueAt(row, 0));
             String itemid = String.valueOf(model.getValueAt(row, 1));
             String itemName = String.valueOf(model.getValueAt(row, 2));
-            String quantity = String.valueOf(model.getValueAt(row, 3));
+            String supplierID = String.valueOf(model.getValueAt(row, 3));
+            String supplierName = String.valueOf(model.getValueAt(row, 4));
+            String quantity = String.valueOf(model.getValueAt(row, 5));
 
             // Create a SalesEntry object to represent the selected row
-            SalesEntry deletedEntry = new SalesEntry(itemid, itemName, LocalDate.parse(date), Integer.parseInt(quantity));
+            SalesEntry deletedEntry = new SalesEntry(itemid, itemName, supplierID, supplierName, LocalDate.parse(date), Integer.parseInt(quantity));
 
             // Remove the selected row from the table model
             model.removeRow(row);
@@ -348,7 +353,7 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
         String date = String.valueOf(model.getValueAt(row, 0));
         String itemid = String.valueOf(model.getValueAt(row, 1));
         String itemName = String.valueOf(model.getValueAt(row, 2));
-        String quantity = String.valueOf(model.getValueAt(row, 3));
+        String quantity = String.valueOf(model.getValueAt(row, 5));
         
         
         DateTextField.setText(date);
@@ -379,18 +384,20 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
 
                         // Read and validate the item information from "item.txt"
                         boolean itemValid = false;
-                        try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\item.txt"))) {
+                        try (BufferedReader br = new BufferedReader(new FileReader("Items.txt"))) {
                             String line;
                             while ((line = br.readLine()) != null) {
                                 String[] parts = line.split(",");
                                 String itemFromFileId = parts[0].trim();
                                 String itemFromFileName = parts[1].trim();
+                                String supplierID = parts[3].trim();
+                                String supplierName = parts[4].trim();
                                 double price = Double.parseDouble(parts[2].trim());
 
                                 if (itemFromFileId.equals(itemid) && itemFromFileName.equals(itemname)) {
                                     itemValid = true;
                                     // Update the SalesEntry object for the selected row
-                                    SalesEntry updatedEntry = new SalesEntry(itemid, itemname, date, quantity);
+                                    SalesEntry updatedEntry = new SalesEntry(itemid, itemname, supplierID, supplierName, date, quantity);
 
                                     double totalSales = updatedEntry.getTotalSales();
 
@@ -398,8 +405,10 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
                                     model.setValueAt(date, row, 0);
                                     model.setValueAt(itemid, row, 1);
                                     model.setValueAt(itemname, row, 2);
-                                    model.setValueAt(quantity, row, 3);
-                                    model.setValueAt(totalSales, row, 4);
+                                    model.setValueAt(supplierID, row, 3);
+                                    model.setValueAt(supplierName, row, 4);
+                                    model.setValueAt(quantity, row, 5);
+                                    model.setValueAt(totalSales, row, 6);
 
                                     // Update the "salesentry.txt" file
                                     ArrayList<SalesEntry> salesEntries = SalesEntry.readSalesEntriesFromFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\salesentry.txt");
@@ -461,8 +470,10 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
                         model.getValueAt(i, 0), // Date
                         model.getValueAt(i, 1), // ItemID
                         model.getValueAt(i, 2), // ItemName
-                        model.getValueAt(i, 3), // Quantity
-                        model.getValueAt(i, 4)  // Total Sales
+                        model.getValueAt(i, 3), // SupplierID
+                        model.getValueAt(i, 4), // SupplierName
+                        model.getValueAt(i, 5), // Quantity
+                        model.getValueAt(i, 6), // Total Sales
                     };
                     filteredModel.addRow(row);
                 }

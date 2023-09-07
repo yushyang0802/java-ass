@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 public class ListOfSalesEntry extends javax.swing.JFrame {
     private final DefaultTableModel model = new DefaultTableModel();
     private final DefaultTableModel originalModel;
-    private final String[] columnsName = {"Date","ItemID","Item","Quantity","Total Sales"};
+    private final String[] columnsName = {"Date","ItemID","Item","Supplier ID","Supplier Name","Quantity","Total Sales"};
     private int row =- 1;
 
     /**
@@ -34,7 +34,7 @@ public class ListOfSalesEntry extends javax.swing.JFrame {
         ArrayList<SalesEntry> salesEntries = SalesEntry.readSalesEntriesFromFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\salesentry.txt");
 
         for (SalesEntry entry : salesEntries) {
-            Object[] row = {entry.getDate(), entry.getItemid(), entry.getItemName(), entry.getQuantity(), entry.getTotalSales()};
+            Object[] row = {entry.getDate(), entry.getID(), entry.getName(), entry.getSupplierID(), entry.getSupplierName(), entry.getQuantity(), entry.getTotalSales()};
             model.addRow(row);
         }
     }

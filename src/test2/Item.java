@@ -1,41 +1,65 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package test2;
 
-public class Item {
-    private String itemid;
-    private String itemName;
+/**
+ *
+ * @author Cody
+ */
+class Item {
+    private String id;
+    private String name;
+    private String supplierID;
+    private String supplierName;
     private double price;
-    
-    public Item(String itemid, String itemName, double price){
-        this.itemid = itemid;
-        this.itemName = itemName;
+
+    public Item( String id, String name,String supplierID, String supplierName, double price) {
+        this.id = id;
+        this.name = name;
+        this.supplierID = supplierID;
+        this.supplierName = supplierName;
         this.price = price;
     }
 
-    public String getItemid() {
-        return itemid;
-    }
-
-    public void setItemid(String itemid) {
-        this.itemid = itemid;
+    public String getID(){
+        return id;
     }
     
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setID(String id){
+        this.id = id;
     }
-
-    public void setPrice(double price) {
-        this.price = price;
+    
+    public String getName(){
+        return name;
     }
-
-    public String getItemName() {
-        return itemName;
+    
+    public void setName(String name){
+        this.name = name;
     }
-
-    public double getPrice() {
+    
+    public double getPrice(){
         return price;
     }
-         
+    
+    public void setPrice(double price){
+        this.price = price;
+    }
+    
+    public String getSupplierID(){
+        return supplierID;
+    }
+    
+    public void setSupplierID(String supplierID){
+        this.supplierID = supplierID;
+    }
+    
+    public String getSupplierName(){
+        return supplierName;
+    }
+    
+    public void setSupplierName(String supplierName){
+        this.supplierName = supplierName;
+    }
 }
-

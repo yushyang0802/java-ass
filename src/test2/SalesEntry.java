@@ -15,8 +15,8 @@ public class SalesEntry extends Item{
     private int quantity;
     private double totalSales;
 
-    public SalesEntry(String itemid, String itemName, LocalDate date, int quantity) {
-        super(itemid, itemName, 0.0); 
+    public SalesEntry(String id, String name, String supplierID, String supplierName, LocalDate date, int quantity) {
+        super(id, name, supplierID, supplierName, 0.0); 
         this.date = date;
         this.quantity = quantity;
         this.totalSales = calculateTotalSales();
@@ -49,13 +49,13 @@ public class SalesEntry extends Item{
     }
 
     private void updatePriceFromItemFile() {
-        try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\item.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("Items.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 // Parse the line to get the item price based on itemid
                 String[] parts = line.split(",");
                 String itemFromFileId = parts[0].trim();
-                if (itemFromFileId.equals(getItemid())) {
+                if (itemFromFileId.equals(getID())) {
                     double priceFromFile = Double.parseDouble(parts[2].trim());
                     setPrice(priceFromFile);
                     break; // Stop searching once the price is found
@@ -85,11 +85,13 @@ public class SalesEntry extends Item{
                 LocalDate date = LocalDate.parse(parts[0].trim());
                 String itemid = parts[1].trim();
                 String itemname = parts[2].trim();
-                int quantity = Integer.parseInt(parts[3].trim());
-                double totalSales = Double.parseDouble(parts[4].trim());
+                String supplierID = parts[3].trim();
+                String supplierName = parts[4].trim();
+                int quantity = Integer.parseInt(parts[5].trim());
+                double totalSales = Double.parseDouble(parts[6]);
 
                 // Create a SalesEntry object and add it to the list
-                SalesEntry salesEntry = new SalesEntry(itemid, itemname, date, quantity);
+                SalesEntry salesEntry = new SalesEntry(itemid, itemname, supplierID, supplierName, date, quantity);
                 salesEntries.add(salesEntry);
             }
         } catch (IOException | DateTimeParseException | NumberFormatException e) {
@@ -102,12 +104,25 @@ public class SalesEntry extends Item{
     public static void updateSalesEntryFile(ArrayList<SalesEntry> salesEntries, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (SalesEntry entry : salesEntries) {
-                writer.write(entry.getDate() + "," + entry.getItemid() + "," + entry.getItemName() + "," +
+                writer.write(entry.getDate() + "," + entry.getID() + "," + entry.getName() + 
+                             "," + entry.getSupplierID() + "," + entry.getSupplierName() + "," + 
                              entry.getQuantity() + "," + entry.getTotalSales());
                 writer.newLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        SalesEntry other = (SalesEntry) obj;
+        return this.getID().equals(other.getID());
     }
 }
