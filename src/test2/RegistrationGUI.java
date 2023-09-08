@@ -225,7 +225,7 @@ public class RegistrationGUI extends javax.swing.JFrame {
 
         private void savetoFile(User user) {
             try {
-                String file_name = "C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\account.txt";
+                String file_name = "account.txt";
 
                 if (userExists(user.getUsername(), file_name)) {
                 JOptionPane.showMessageDialog(null, "User already exists");
