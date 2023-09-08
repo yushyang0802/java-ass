@@ -126,7 +126,7 @@ public class PurchaseRequisitionPage extends javax.swing.JFrame {
     private void btnviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnviewActionPerformed
         ViewPurchaseRequisition add = new ViewPurchaseRequisition();
         add.setVisible(true);
-        this.dispose();
+        
     }//GEN-LAST:event_btnviewActionPerformed
 
     private void btnbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbackActionPerformed

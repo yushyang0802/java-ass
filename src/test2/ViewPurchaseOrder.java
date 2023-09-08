@@ -258,8 +258,6 @@ public class ViewPurchaseOrder extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnexitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexitActionPerformed
-        PurchaseOrderPage po = new PurchaseOrderPage();
-        po.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnexitActionPerformed
 

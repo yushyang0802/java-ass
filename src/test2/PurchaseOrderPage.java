@@ -127,7 +127,7 @@ public class PurchaseOrderPage extends javax.swing.JFrame {
     private void btnviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnviewActionPerformed
         ViewPurchaseOrder add = new ViewPurchaseOrder();
         add.setVisible(true);
-        this.dispose();
+        
     }//GEN-LAST:event_btnviewActionPerformed
 
     private void btnexitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexitActionPerformed

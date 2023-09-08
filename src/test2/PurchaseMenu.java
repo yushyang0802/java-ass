@@ -141,19 +141,19 @@ public class PurchaseMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_LogoutButtonActionPerformed
 
     private void ListofItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListofItemsButtonActionPerformed
-        this.dispose();
+
         ViewItems viewitems = new ViewItems();
         viewitems.setVisible(true);
     }//GEN-LAST:event_ListofItemsButtonActionPerformed
 
     private void ListofSuppliersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListofSuppliersButtonActionPerformed
-        this.dispose();
+
         ViewSuppliers viewsuppliers = new ViewSuppliers();
         viewsuppliers.setVisible(true);
     }//GEN-LAST:event_ListofSuppliersButtonActionPerformed
 
     private void DisplayPRButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DisplayPRButtonActionPerformed
-        this.dispose();
+
         ViewPurchaseRequisition viewpr = new ViewPurchaseRequisition();
         viewpr.setVisible(true);
     }//GEN-LAST:event_DisplayPRButtonActionPerformed
@@ -165,7 +165,7 @@ public class PurchaseMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_GeneratePOButtonActionPerformed
 
     private void ListofPOButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListofPOButtonActionPerformed
-        this.dispose();
+ 
         ViewPurchaseOrder viewpo = new ViewPurchaseOrder();
         viewpo.setVisible(true);
     }//GEN-LAST:event_ListofPOButtonActionPerformed

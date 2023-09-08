@@ -205,6 +205,11 @@ public class Supplier_Entry extends javax.swing.JFrame {
 
         backButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         backButton.setText("Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
         deleteButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         deleteButton.setText("Delete");
@@ -452,6 +457,12 @@ public class Supplier_Entry extends javax.swing.JFrame {
         String search = searchText.getText(); // Get the search text from the "searchText" field
         performSearch(search);
     }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        this.dispose();
+        SalesMenu salesmenu = new SalesMenu();
+        salesmenu.setVisible(true);
+    }//GEN-LAST:event_backButtonActionPerformed
 
     /**
      * @param args the command line arguments

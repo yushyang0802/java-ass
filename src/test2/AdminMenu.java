@@ -144,10 +144,10 @@ public class AdminMenu extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void CreateUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateUserButtonActionPerformed
-        this.dispose();
         RegistrationGUI registrationGUI = new RegistrationGUI();
         registrationGUI.setVisible(true);
     }//GEN-LAST:event_CreateUserButtonActionPerformed
@@ -159,31 +159,26 @@ public class AdminMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_LogoutButtonActionPerformed
 
     private void ListofItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListofItemsButtonActionPerformed
-        this.dispose();
         ViewItems viewitems = new ViewItems();
         viewitems.setVisible(true);
     }//GEN-LAST:event_ListofItemsButtonActionPerformed
 
     private void ListofSuppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListofSuppliersActionPerformed
-        this.dispose();
         ViewSuppliers viewsuppliers = new ViewSuppliers();
         viewsuppliers.setVisible(true);
     }//GEN-LAST:event_ListofSuppliersActionPerformed
 
     private void ListOfSalesEntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListOfSalesEntryButtonActionPerformed
-        this.dispose();
         ListOfSalesEntry listofsalesentry = new ListOfSalesEntry();
         listofsalesentry.setVisible(true);
     }//GEN-LAST:event_ListOfSalesEntryButtonActionPerformed
 
     private void ListofPOButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListofPOButtonActionPerformed
-        this.dispose();
         ViewPurchaseOrder viewpo = new ViewPurchaseOrder();
         viewpo.setVisible(true);
     }//GEN-LAST:event_ListofPOButtonActionPerformed
 
     private void DisplayPRButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DisplayPRButtonActionPerformed
-        this.dispose();
         ViewPurchaseRequisition viewpr = new ViewPurchaseRequisition();
         viewpr.setVisible(true);
     }//GEN-LAST:event_DisplayPRButtonActionPerformed

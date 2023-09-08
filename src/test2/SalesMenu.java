@@ -169,13 +169,11 @@ public class SalesMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_CreatePRButtonActionPerformed
 
     private void DisplayPRButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DisplayPRButtonActionPerformed
-        this.dispose();
         ViewPurchaseRequisition viewpr = new ViewPurchaseRequisition();
         viewpr.setVisible(true);
     }//GEN-LAST:event_DisplayPRButtonActionPerformed
 
     private void ListofPOButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListofPOButtonActionPerformed
-        this.dispose();
         ViewPurchaseOrder viewpo = new ViewPurchaseOrder();
         viewpo.setVisible(true);
     }//GEN-LAST:event_ListofPOButtonActionPerformed
