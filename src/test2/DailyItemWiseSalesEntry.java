@@ -497,7 +497,8 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
 
     private void BacktoMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BacktoMenuButtonActionPerformed
         this.dispose();
-        
+        SalesMenu salesmenu = new SalesMenu();
+        salesmenu.setVisible(true);
     }//GEN-LAST:event_BacktoMenuButtonActionPerformed
 
     /**
