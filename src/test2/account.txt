@@ -1,2 +1,0 @@
-Eugene,Sales Manager,123456
-John,Sales Manager,123456
