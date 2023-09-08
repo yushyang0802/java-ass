@@ -81,7 +81,7 @@ public class SalesMenu extends javax.swing.JFrame {
         });
 
         ListofPOButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 18)); // NOI18N
-        ListofPOButton.setText("List of Purchaser Orders");
+        ListofPOButton.setText("List of Purchase Orders");
         ListofPOButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ListofPOButtonActionPerformed(evt);
