@@ -145,11 +145,15 @@ public class SalesMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ItemEntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemEntryButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        Item_Entry itementry = new Item_Entry();
+        itementry.setVisible(true);
     }//GEN-LAST:event_ItemEntryButtonActionPerformed
 
     private void SupplierEntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SupplierEntryButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        Supplier_Entry supplierentry = new Supplier_Entry();
+        supplierentry.setVisible(true);
     }//GEN-LAST:event_SupplierEntryButtonActionPerformed
 
     private void DailyItemWiseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DailyItemWiseButtonActionPerformed
@@ -159,15 +163,21 @@ public class SalesMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_DailyItemWiseButtonActionPerformed
 
     private void CreatePRButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreatePRButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        PurchaseRequisitionPage prpage = new PurchaseRequisitionPage();
+        prpage.setVisible(true);
     }//GEN-LAST:event_CreatePRButtonActionPerformed
 
     private void DisplayPRButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DisplayPRButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        ViewPurchaseRequisition viewpr = new ViewPurchaseRequisition();
+        viewpr.setVisible(true);
     }//GEN-LAST:event_DisplayPRButtonActionPerformed
 
     private void ListofPOButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListofPOButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        ViewPurchaseOrder viewpo = new ViewPurchaseOrder();
+        viewpo.setVisible(true);
     }//GEN-LAST:event_ListofPOButtonActionPerformed
 
     private void LogoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutButtonActionPerformed

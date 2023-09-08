@@ -89,6 +89,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="List of Items"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ListofItemsButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="ListofSuppliersButton">
       <Properties>
@@ -97,6 +100,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="List of Suppliers"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ListofSuppliersButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="DisplayPRButton">
       <Properties>
@@ -105,6 +111,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Display Purchase Requistion"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DisplayPRButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="GeneratePOButton">
       <Properties>
@@ -113,6 +122,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Generate Purchase Order"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GeneratePOButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="ListofPOButton">
       <Properties>
@@ -121,6 +133,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="List of Purchaser Orders"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ListofPOButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="LogoutButton">
       <Properties>

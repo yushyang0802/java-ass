@@ -43,7 +43,7 @@
                           <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="DailyItemWiseButton" alignment="0" min="-2" pref="348" max="-2" attributes="0"/>
+                  <Component id="ListOfSalesEntryButton" alignment="0" min="-2" pref="348" max="-2" attributes="0"/>
                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                       <Component id="CreateUserButton" alignment="0" max="32767" attributes="0"/>
                       <Component id="ListofPOButton" alignment="0" max="32767" attributes="0"/>
@@ -65,7 +65,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="ListofSuppliers" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="DailyItemWiseButton" min="-2" pref="29" max="-2" attributes="0"/>
+              <Component id="ListOfSalesEntryButton" min="-2" pref="29" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="DisplayPRButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -130,15 +130,15 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ListofSuppliersActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="DailyItemWiseButton">
+    <Component class="javax.swing.JButton" name="ListOfSalesEntryButton">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Rockwell Extra Bold" size="18" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Daily Item Wise Sales Entry"/>
+        <Property name="text" type="java.lang.String" value="List of Sales Entry"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DailyItemWiseButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ListOfSalesEntryButtonActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="ListofPOButton">

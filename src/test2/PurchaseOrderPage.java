@@ -132,6 +132,8 @@ public class PurchaseOrderPage extends javax.swing.JFrame {
 
     private void btnexitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexitActionPerformed
         this.dispose();
+        PurchaseMenu purchasemenu = new PurchaseMenu();
+        purchasemenu.setVisible(true);
     }//GEN-LAST:event_btnexitActionPerformed
 
     /**

@@ -110,6 +110,11 @@ public class ViewItems extends javax.swing.JFrame {
 
         backButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         backButton.setText("Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -152,6 +157,10 @@ public class ViewItems extends javax.swing.JFrame {
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
       
     }//GEN-LAST:event_tableMouseClicked
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        
+    }//GEN-LAST:event_backButtonActionPerformed
 
     /**
      * @param args the command line arguments

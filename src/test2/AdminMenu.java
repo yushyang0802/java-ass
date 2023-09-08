@@ -31,7 +31,7 @@ public class AdminMenu extends javax.swing.JFrame {
         LogoutButton = new javax.swing.JButton();
         ListofItemsButton = new javax.swing.JButton();
         ListofSuppliers = new javax.swing.JButton();
-        DailyItemWiseButton = new javax.swing.JButton();
+        ListOfSalesEntryButton = new javax.swing.JButton();
         ListofPOButton = new javax.swing.JButton();
         DisplayPRButton = new javax.swing.JButton();
 
@@ -72,11 +72,11 @@ public class AdminMenu extends javax.swing.JFrame {
             }
         });
 
-        DailyItemWiseButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 18)); // NOI18N
-        DailyItemWiseButton.setText("Daily Item Wise Sales Entry");
-        DailyItemWiseButton.addActionListener(new java.awt.event.ActionListener() {
+        ListOfSalesEntryButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 18)); // NOI18N
+        ListOfSalesEntryButton.setText("List of Sales Entry");
+        ListOfSalesEntryButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DailyItemWiseButtonActionPerformed(evt);
+                ListOfSalesEntryButtonActionPerformed(evt);
             }
         });
 
@@ -115,7 +115,7 @@ public class AdminMenu extends javax.swing.JFrame {
                                 .addComponent(ListofItemsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(ListofSuppliers, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
                             .addGap(58, 58, 58)))
-                    .addComponent(DailyItemWiseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ListOfSalesEntryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(CreateUserButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(ListofPOButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -133,7 +133,7 @@ public class AdminMenu extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(ListofSuppliers)
                 .addGap(18, 18, 18)
-                .addComponent(DailyItemWiseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ListOfSalesEntryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(DisplayPRButton)
                 .addGap(18, 18, 18)
@@ -159,23 +159,33 @@ public class AdminMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_LogoutButtonActionPerformed
 
     private void ListofItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListofItemsButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        ViewItems viewitems = new ViewItems();
+        viewitems.setVisible(true);
     }//GEN-LAST:event_ListofItemsButtonActionPerformed
 
     private void ListofSuppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListofSuppliersActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        ViewSuppliers viewsuppliers = new ViewSuppliers();
+        viewsuppliers.setVisible(true);
     }//GEN-LAST:event_ListofSuppliersActionPerformed
 
-    private void DailyItemWiseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DailyItemWiseButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DailyItemWiseButtonActionPerformed
+    private void ListOfSalesEntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListOfSalesEntryButtonActionPerformed
+        this.dispose();
+        ListOfSalesEntry listofsalesentry = new ListOfSalesEntry();
+        listofsalesentry.setVisible(true);
+    }//GEN-LAST:event_ListOfSalesEntryButtonActionPerformed
 
     private void ListofPOButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListofPOButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        ViewPurchaseOrder viewpo = new ViewPurchaseOrder();
+        viewpo.setVisible(true);
     }//GEN-LAST:event_ListofPOButtonActionPerformed
 
     private void DisplayPRButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DisplayPRButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        ViewPurchaseRequisition viewpr = new ViewPurchaseRequisition();
+        viewpr.setVisible(true);
     }//GEN-LAST:event_DisplayPRButtonActionPerformed
 
     /**
@@ -219,8 +229,8 @@ public class AdminMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AdminMenuLabel;
     private javax.swing.JButton CreateUserButton;
-    private javax.swing.JButton DailyItemWiseButton;
     private javax.swing.JButton DisplayPRButton;
+    private javax.swing.JButton ListOfSalesEntryButton;
     private javax.swing.JButton ListofItemsButton;
     private javax.swing.JButton ListofPOButton;
     private javax.swing.JButton ListofSuppliers;

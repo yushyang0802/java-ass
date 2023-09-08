@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
@@ -41,18 +41,43 @@ public class PurchaseMenu extends javax.swing.JFrame {
 
         ListofItemsButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 18)); // NOI18N
         ListofItemsButton.setText("List of Items");
+        ListofItemsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListofItemsButtonActionPerformed(evt);
+            }
+        });
 
         ListofSuppliersButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 18)); // NOI18N
         ListofSuppliersButton.setText("List of Suppliers");
+        ListofSuppliersButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListofSuppliersButtonActionPerformed(evt);
+            }
+        });
 
         DisplayPRButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 18)); // NOI18N
         DisplayPRButton.setText("Display Purchase Requistion");
+        DisplayPRButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DisplayPRButtonActionPerformed(evt);
+            }
+        });
 
         GeneratePOButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 18)); // NOI18N
         GeneratePOButton.setText("Generate Purchase Order");
+        GeneratePOButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GeneratePOButtonActionPerformed(evt);
+            }
+        });
 
         ListofPOButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 18)); // NOI18N
         ListofPOButton.setText("List of Purchaser Orders");
+        ListofPOButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListofPOButtonActionPerformed(evt);
+            }
+        });
 
         LogoutButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 12)); // NOI18N
         LogoutButton.setText("Logout");
@@ -114,6 +139,36 @@ public class PurchaseMenu extends javax.swing.JFrame {
         LoginGUI loginGUI = new LoginGUI();
         loginGUI.setVisible(true);
     }//GEN-LAST:event_LogoutButtonActionPerformed
+
+    private void ListofItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListofItemsButtonActionPerformed
+        this.dispose();
+        ViewItems viewitems = new ViewItems();
+        viewitems.setVisible(true);
+    }//GEN-LAST:event_ListofItemsButtonActionPerformed
+
+    private void ListofSuppliersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListofSuppliersButtonActionPerformed
+        this.dispose();
+        ViewSuppliers viewsuppliers = new ViewSuppliers();
+        viewsuppliers.setVisible(true);
+    }//GEN-LAST:event_ListofSuppliersButtonActionPerformed
+
+    private void DisplayPRButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DisplayPRButtonActionPerformed
+        this.dispose();
+        ViewPurchaseRequisition viewpr = new ViewPurchaseRequisition();
+        viewpr.setVisible(true);
+    }//GEN-LAST:event_DisplayPRButtonActionPerformed
+
+    private void GeneratePOButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GeneratePOButtonActionPerformed
+        this.dispose();
+        PurchaseOrderPage popage = new PurchaseOrderPage();
+        popage.setVisible(true);
+    }//GEN-LAST:event_GeneratePOButtonActionPerformed
+
+    private void ListofPOButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListofPOButtonActionPerformed
+        this.dispose();
+        ViewPurchaseOrder viewpo = new ViewPurchaseOrder();
+        viewpo.setVisible(true);
+    }//GEN-LAST:event_ListofPOButtonActionPerformed
 
     /**
      * @param args the command line arguments
