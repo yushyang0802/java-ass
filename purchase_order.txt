@@ -6,3 +6,4 @@ P008/Lychee/8.0/35/280.0/c001/Company P
 P001/Apple/4.0/145/580.0/c001/Company P
 p002/orange/9.0/30/270.0/c001/Company P
 p003/lemon/5.0/50/250.0/c002/Company Q
+2/Chicken/6.0/5/30.0/10/Tesco
