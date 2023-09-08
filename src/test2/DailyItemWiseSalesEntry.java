@@ -37,7 +37,7 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
     }
     
     private void loadDataFromSalesEntryFile() {
-        ArrayList<SalesEntry> salesEntries = SalesEntry.readSalesEntriesFromFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\salesentry.txt");
+        ArrayList<SalesEntry> salesEntries = SalesEntry.readSalesEntriesFromFile("salesentry.txt");
 
         for (SalesEntry entry : salesEntries) {
             Object[] row = {entry.getDate(), entry.getID(), entry.getName(), entry.getSupplierID(), entry.getSupplierName(), entry.getQuantity(), entry.getTotalSales()};
@@ -278,7 +278,7 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
                             model.addRow(row);
 
                             // Save the sales entry information to "salesentry.txt"
-                            try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\salesentry.txt", true))) {
+                            try (BufferedWriter writer = new BufferedWriter(new FileWriter("salesentry.txt", true))) {
                                 String entryLine = date + "," + itemid + "," + itemname + "," + supplierID + "," + supplierName + "," + quantity + "," + salesEntry.getTotalSales();
                                 writer.write(entryLine);
                                 writer.newLine(); // Add a newline character to separate entries
@@ -332,9 +332,9 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
             model.removeRow(row);
 
             // Update the "salesentry.txt" file by removing the deleted entry
-            ArrayList<SalesEntry> salesEntries = SalesEntry.readSalesEntriesFromFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\salesentry.txt");
+            ArrayList<SalesEntry> salesEntries = SalesEntry.readSalesEntriesFromFile("salesentry.txt");
             salesEntries.remove(deletedEntry);
-            SalesEntry.updateSalesEntryFile(salesEntries, "C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\salesentry.txt");
+            SalesEntry.updateSalesEntryFile(salesEntries, "salesentry.txt");
 
             // Clear the input fields
             DateTextField.setText("");
@@ -412,9 +412,9 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
                                     model.setValueAt(totalSales, row, 6);
 
                                     // Update the "salesentry.txt" file
-                                    ArrayList<SalesEntry> salesEntries = SalesEntry.readSalesEntriesFromFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\salesentry.txt");
+                                    ArrayList<SalesEntry> salesEntries = SalesEntry.readSalesEntriesFromFile("salesentry.txt");
                                     salesEntries.set(row, updatedEntry);
-                                    SalesEntry.updateSalesEntryFile(salesEntries, "C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\salesentry.txt");
+                                    SalesEntry.updateSalesEntryFile(salesEntries, "salesentry.txt");
 
                                     // Clear the input fields
                                     DateTextField.setText("");
