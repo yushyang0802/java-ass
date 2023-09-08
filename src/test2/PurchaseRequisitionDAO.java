@@ -27,7 +27,7 @@ public class PurchaseRequisitionDAO {
             if (parts.length == 7) {
                 String itemCode = parts[0];
                 String itemName = parts[1];
-                int PricePerItem = Integer.parseInt(parts[2]);
+                double PricePerItem = Double.parseDouble(parts[2]);
                 int quantity = Integer.parseInt(parts[3]);
 
                 PurchaseRequisition pr = new PurchaseRequisition(itemCode, itemName, PricePerItem, quantity);
@@ -92,7 +92,7 @@ public class PurchaseRequisitionDAO {
             if (parts.length == 7) {
                 String itemCode = parts[0];
                 String itemName = parts[1];
-                int PricePerItem = Integer.parseInt(parts[2]);
+                double PricePerItem = Double.parseDouble(parts[2]);
                 int Quantity = Integer.parseInt(parts[3]);
                 double TotalPrice = Double.parseDouble(parts[4]);
                 String supplierID = parts[5];

@@ -275,7 +275,7 @@ public class ViewPurchaseRequisition extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     public void fillComboBox(){
-        fileclass po = new fileclass("supplier.txt");///记得跟calvin拿supplier 的txt file
+        fileclass po = new fileclass("Suppliers.txt");
         try {
             ArrayList<String> as = po.readData();
             jComboBox1.addItem("all company");
@@ -283,7 +283,7 @@ public class ViewPurchaseRequisition extends javax.swing.JFrame {
         for (int i = 0; i < as.size(); i++) {
             String line = as.get(i);
             String[] dataRow = line.split(",");
-            String company = dataRow[0].toString();
+            String company = dataRow[1].toString();
             jComboBox1.addItem(company);
         }
         } catch (IOException e) {

@@ -217,7 +217,7 @@ public class GeneratePurchaseOrder extends javax.swing.JFrame {
 
             if(!itemExists){
                 model2.addRow(new Object[]{ItemID, ItemName, Priceperitem, Quantity, Price,ComID,ComName});
-                int a =Integer.parseInt(Priceperitem);
+                double a =Double.parseDouble(Priceperitem);
                 int b =Integer.parseInt(Quantity);
                 //String entry2 = ItemID + "/" + ItemName + "/" + Priceperitem + "/" + Quantity + "/" + Price;
                 PurchaseRequisition entry2 = new PurchaseRequisition(ItemID ,  ItemName, a ,b ,ComID,ComName);

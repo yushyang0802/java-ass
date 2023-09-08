@@ -345,9 +345,9 @@ public class DisplayPurchaseOrder extends javax.swing.JFrame {
             String Quantity = tblModel.getValueAt(jTable1.getSelectedRow(),3).toString();
             String NewItemID = lblItemID3.getText();
         String NewItemName = lblItemName1.getText();
-        int NewPriceperitem = Integer.parseInt(TFPPI.getText());
+        double NewPriceperitem = Double.parseDouble(TFPPI.getText());
         int NewQuantity = Integer.parseInt(TFQuantity.getText());
-        int NewPrice = NewPriceperitem * NewQuantity;
+        double NewPrice = NewPriceperitem * NewQuantity;
         String ComID = lblComID.getText();
         String ComName = lblComName.getText();
 

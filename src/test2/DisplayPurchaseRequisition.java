@@ -386,9 +386,9 @@ public class DisplayPurchaseRequisition extends javax.swing.JFrame {
 
         String NewItemID = lblItemID3.getText();
         String NewItemName = lblItemName.getText();
-        int NewPriceperitem = Integer.parseInt(TFPPI.getText());
+        double NewPriceperitem = Double.parseDouble(TFPPI.getText());
         int NewQuantity = Integer.parseInt(TFQuantity.getText());
-        int NewPrice = NewPriceperitem * NewQuantity;
+        double NewPrice = NewPriceperitem * NewQuantity;
         String ComID = lblComID.getText();
         String ComName = lblComName.getText();
 
