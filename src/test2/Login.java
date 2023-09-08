@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 public class Login {
     
     public static boolean handleLogin(String username, String role, String password) {
-        String file_name = "C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\account.txt";
+        String file_name = "account.txt";
 
         try {
             FileReader fr = new FileReader(file_name);
