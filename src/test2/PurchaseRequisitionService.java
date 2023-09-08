@@ -68,7 +68,7 @@ public class PurchaseRequisitionService {
     }
 
     public double calculateTotalPrice() {
-        int TotalPrice = 0;
+        double TotalPrice = 0;
         ArrayList<PurchaseRequisition> requisitions = getAllRequisitions();
         for (PurchaseRequisition pr : requisitions) {
             TotalPrice += pr.getTotalPrice();

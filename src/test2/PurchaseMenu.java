@@ -160,7 +160,7 @@ public class PurchaseMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_DisplayPRButtonActionPerformed
 
     private void GeneratePOButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GeneratePOButtonActionPerformed
-        this.dispose();
+
         PurchaseOrderPage popage = new PurchaseOrderPage();
         popage.setVisible(true);
     }//GEN-LAST:event_GeneratePOButtonActionPerformed
