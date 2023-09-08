@@ -126,7 +126,7 @@ public class ViewPurchaseRequisition extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setText("Purchase Requisition");
 
-        jLabel2.setText("SIGMA SDN BHN");
+        jLabel2.setText("SIGMA SDN BHD");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
