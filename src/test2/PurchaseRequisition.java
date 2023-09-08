@@ -6,20 +6,20 @@ public class PurchaseRequisition {
     
     private String itemCode;
     private String itemName;
-    private int PricePerItem;
+    private double PricePerItem;
     private int quantity;
     private double TotalPrice;
     private String supplierID;
     private String supplierName;
      
-    public PurchaseRequisition(String itemCode, String itemName, int PricePerItem, int quantity) {
+    public PurchaseRequisition(String itemCode, String itemName, double PricePerItem, int quantity) {
         this.itemCode = itemCode;
         this.itemName = itemName;
         this.PricePerItem = PricePerItem;
         this.quantity = quantity;
     }
     
-    public PurchaseRequisition(String itemCode, String itemName, int PricePerItem, String supId,String supname) {
+    public PurchaseRequisition(String itemCode, String itemName, double PricePerItem, String supId,String supname) {
         this.itemCode = itemCode;
         this.itemName = itemName;
         this.PricePerItem = PricePerItem;
@@ -27,7 +27,7 @@ public class PurchaseRequisition {
         this.supplierName = supname;
     }
     
-    public PurchaseRequisition(String itemCode, String itemName, int PricePerItem, int quantity, String supId,String supname) {
+    public PurchaseRequisition(String itemCode, String itemName, double PricePerItem, int quantity, String supId,String supname) {
         this.itemCode = itemCode;
         this.itemName = itemName;
         this.PricePerItem = PricePerItem;
@@ -36,7 +36,7 @@ public class PurchaseRequisition {
         this.supplierName = supname;
     }
     
-    public PurchaseRequisition(String itemCode, String itemName, int PricePerItem, int quantity, double TotalPrice, String supId,String supname) {
+    public PurchaseRequisition(String itemCode, String itemName, double PricePerItem, int quantity, double TotalPrice, String supId,String supname) {
         this.itemCode = itemCode;
         this.itemName = itemName;
         this.PricePerItem = PricePerItem;
@@ -63,7 +63,7 @@ public class PurchaseRequisition {
         this.itemName = itemName;
     }
     
-    public int getPricePerItem() {
+    public double getPricePerItem() {
         return PricePerItem;
     }
     

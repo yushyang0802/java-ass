@@ -43,15 +43,15 @@ public class PurchaseRequisitionDAO {
         BufferedReader br = new BufferedReader(new FileReader(filePath));
         String line;
         while ((line = br.readLine()) != null) {
-            String[] parts = line.split("/");
+            String[] parts = line.split(",");
             if (parts.length == 5) {
                 String itemCode = parts[0];
                 String itemName = parts[1];
-                int PricePerItem = Integer.parseInt(parts[2]);
+                double PricePerItem = Double.parseDouble(parts[2]);
                 String supplierID = parts[3];
                 String supplierName = parts[4];
 
-                PurchaseRequisition pr = new PurchaseRequisition(itemCode, itemName, PricePerItem, supplierID,supplierName);
+                PurchaseRequisition pr = new PurchaseRequisition(itemCode, itemName,PricePerItem, supplierID,supplierName);
                 requisitions.add(pr);
             }
         }

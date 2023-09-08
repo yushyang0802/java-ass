@@ -25,7 +25,7 @@ public class AddItemToPR extends javax.swing.JFrame {
      */
     public AddItemToPR() {
         initComponents();
-        service1 = new PurchaseRequisitionService("item.txt");
+        service1 = new PurchaseRequisitionService("Items.txt");
         service2 = new PurchaseRequisitionService("purchase_requisition.txt");
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         showTable();
@@ -393,7 +393,7 @@ public class AddItemToPR extends javax.swing.JFrame {
       if ((!(lblItemID.getText().equals("ID"))) && isInteger(TFQuantity.getText()) ){
                 String itemid = lblItemID.getText();
                 String itemname = lblItemName.getText();
-                int price = Integer.parseInt(lblPrice.getText());
+                double price = Double.parseDouble(lblPrice.getText());
                 int quantity = Integer.parseInt(TFQuantity.getText());
                 String comid = lblComID.getText();
                 String comname = lblComName.getText();
