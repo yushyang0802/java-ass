@@ -1,3 +1,4 @@
 Eugene,Sales Manager,123456
 John,Sales Manager,123456
 yushyang,Admin,123
+Calvin,Purchase Manager,123

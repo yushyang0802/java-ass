@@ -298,6 +298,8 @@ public class RegistrationGUI extends javax.swing.JFrame {
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
         this.dispose();
+        AdminMenu adminmenu = new AdminMenu();
+        adminmenu.setVisible(true);
     }//GEN-LAST:event_BackButtonActionPerformed
        
     /**
