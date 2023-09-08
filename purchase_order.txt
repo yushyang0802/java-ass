@@ -1,0 +1,7 @@
+P006/Mango/5/80/400/c001/Company P
+P005/Dragon fruit/7/43/301/c001/Company P
+P013/Jayden/90000/20/1800000/c001/Company P
+P007/Avocado/5/0/0/c001/Company P
+P008/Lychee/8/35/280/c001/Company P
+P001/Apple/4/145/580/c001/Company P
+p002/orange/9/30/270/c001/Company P
