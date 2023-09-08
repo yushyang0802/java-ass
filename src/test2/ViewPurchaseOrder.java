@@ -264,7 +264,7 @@ public class ViewPurchaseOrder extends javax.swing.JFrame {
     }//GEN-LAST:event_btnexitActionPerformed
 
     public void fillComboBox(){
-        fileclass po = new fileclass("supplier.txt");///记得跟calvin拿supplier 的txt file
+        fileclass po = new fileclass("Suppliers.txt");///记得跟calvin拿supplier 的txt file
         try {
             ArrayList<String> as = po.readData();
             jComboBox1.addItem("all company");
