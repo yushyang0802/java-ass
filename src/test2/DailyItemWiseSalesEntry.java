@@ -256,6 +256,7 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
 
                 // Read and validate the item information from "item.txt"
                 boolean itemValid = false;
+                boolean entryExists = false;
                 try (BufferedReader br = new BufferedReader(new FileReader("Items.txt"))) {
                     String line;
                     while ((line = br.readLine()) != null) {
@@ -498,8 +499,7 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
 
     private void BacktoMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BacktoMenuButtonActionPerformed
         this.dispose();
-        SalesMenu salesmenu = new SalesMenu();
-        salesmenu.setVisible(true);
+        
     }//GEN-LAST:event_BacktoMenuButtonActionPerformed
 
     /**

@@ -34,6 +34,11 @@ public class AdminMenu extends javax.swing.JFrame {
         ListOfSalesEntryButton = new javax.swing.JButton();
         ListofPOButton = new javax.swing.JButton();
         DisplayPRButton = new javax.swing.JButton();
+        ItemEntryButton = new javax.swing.JButton();
+        SupplierEntryButton = new javax.swing.JButton();
+        DailyItemWiseSalesEntryButton = new javax.swing.JButton();
+        CreatePRButton = new javax.swing.JButton();
+        GeneratePOButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,6 +101,46 @@ public class AdminMenu extends javax.swing.JFrame {
             }
         });
 
+        ItemEntryButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 18)); // NOI18N
+        ItemEntryButton.setText("Item Entry");
+        ItemEntryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ItemEntryButtonActionPerformed(evt);
+            }
+        });
+
+        SupplierEntryButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 18)); // NOI18N
+        SupplierEntryButton.setText("Supplier Entry");
+        SupplierEntryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SupplierEntryButtonActionPerformed(evt);
+            }
+        });
+
+        DailyItemWiseSalesEntryButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 18)); // NOI18N
+        DailyItemWiseSalesEntryButton.setText("Daily Item-Wise Sales Entry");
+        DailyItemWiseSalesEntryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DailyItemWiseSalesEntryButtonActionPerformed(evt);
+            }
+        });
+
+        CreatePRButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 18)); // NOI18N
+        CreatePRButton.setText("Create Purchase Requisition");
+        CreatePRButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreatePRButtonActionPerformed(evt);
+            }
+        });
+
+        GeneratePOButton.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 18)); // NOI18N
+        GeneratePOButton.setText("Generate Purchase Order");
+        GeneratePOButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GeneratePOButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -103,23 +148,27 @@ public class AdminMenu extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(77, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(LogoutButton)
-                            .addGap(14, 14, 14))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(AdminMenuLabel)
-                            .addGap(158, 158, 158))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(LogoutButton)
+                        .addGap(14, 14, 14))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(AdminMenuLabel)
+                        .addGap(158, 158, 158))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ListOfSalesEntryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(ListofItemsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(ListofSuppliers, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
-                            .addGap(58, 58, 58)))
-                    .addComponent(ListOfSalesEntryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(CreateUserButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ListofPOButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(DisplayPRButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(ListofSuppliers, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                                .addComponent(ItemEntryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(SupplierEntryButton, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                                .addComponent(DailyItemWiseSalesEntryButton, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
+                            .addComponent(CreatePRButton, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DisplayPRButton)
+                            .addComponent(ListofPOButton, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(GeneratePOButton, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CreateUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(58, 58, 58))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,16 +180,26 @@ public class AdminMenu extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addComponent(ListofItemsButton)
                 .addGap(18, 18, 18)
+                .addComponent(ItemEntryButton)
+                .addGap(18, 18, 18)
                 .addComponent(ListofSuppliers)
                 .addGap(18, 18, 18)
+                .addComponent(SupplierEntryButton)
+                .addGap(18, 18, 18)
+                .addComponent(DailyItemWiseSalesEntryButton)
+                .addGap(18, 18, 18)
                 .addComponent(ListOfSalesEntryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(CreatePRButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(DisplayPRButton)
                 .addGap(18, 18, 18)
                 .addComponent(ListofPOButton)
                 .addGap(18, 18, 18)
+                .addComponent(GeneratePOButton)
+                .addGap(18, 18, 18)
                 .addComponent(CreateUserButton)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
@@ -183,6 +242,31 @@ public class AdminMenu extends javax.swing.JFrame {
         viewpr.setVisible(true);
     }//GEN-LAST:event_DisplayPRButtonActionPerformed
 
+    private void ItemEntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemEntryButtonActionPerformed
+        Item_Entry itementry = new Item_Entry();
+        itementry.setVisible(true);
+    }//GEN-LAST:event_ItemEntryButtonActionPerformed
+
+    private void SupplierEntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SupplierEntryButtonActionPerformed
+        Supplier_Entry supplierentry = new Supplier_Entry();
+        supplierentry.setVisible(true);
+    }//GEN-LAST:event_SupplierEntryButtonActionPerformed
+
+    private void DailyItemWiseSalesEntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DailyItemWiseSalesEntryButtonActionPerformed
+        DailyItemWiseSalesEntry dailyitem = new DailyItemWiseSalesEntry();
+        dailyitem.setVisible(true);
+    }//GEN-LAST:event_DailyItemWiseSalesEntryButtonActionPerformed
+
+    private void CreatePRButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreatePRButtonActionPerformed
+        PurchaseRequisitionPage prpage = new PurchaseRequisitionPage();
+        prpage.setVisible(true);
+    }//GEN-LAST:event_CreatePRButtonActionPerformed
+
+    private void GeneratePOButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GeneratePOButtonActionPerformed
+        PurchaseOrderPage popage = new PurchaseOrderPage();
+        popage.setVisible(true);
+    }//GEN-LAST:event_GeneratePOButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -223,12 +307,17 @@ public class AdminMenu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AdminMenuLabel;
+    private javax.swing.JButton CreatePRButton;
     private javax.swing.JButton CreateUserButton;
+    private javax.swing.JButton DailyItemWiseSalesEntryButton;
     private javax.swing.JButton DisplayPRButton;
+    private javax.swing.JButton GeneratePOButton;
+    private javax.swing.JButton ItemEntryButton;
     private javax.swing.JButton ListOfSalesEntryButton;
     private javax.swing.JButton ListofItemsButton;
     private javax.swing.JButton ListofPOButton;
     private javax.swing.JButton ListofSuppliers;
     private javax.swing.JButton LogoutButton;
+    private javax.swing.JButton SupplierEntryButton;
     // End of variables declaration//GEN-END:variables
 }

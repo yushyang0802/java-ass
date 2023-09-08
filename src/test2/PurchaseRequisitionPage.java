@@ -132,8 +132,7 @@ public class PurchaseRequisitionPage extends javax.swing.JFrame {
 
     private void btnbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbackActionPerformed
         this.dispose();
-        SalesMenu salesmenu = new SalesMenu();
-        salesmenu.setVisible(true);
+        
     }//GEN-LAST:event_btnbackActionPerformed
 
     /**

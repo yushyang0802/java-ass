@@ -128,7 +128,7 @@ public class PurchaseMenu extends javax.swing.JFrame {
                 .addComponent(GeneratePOButton)
                 .addGap(18, 18, 18)
                 .addComponent(ListofPOButton)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(201, Short.MAX_VALUE))
         );
 
         pack();
