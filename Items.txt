@@ -4,3 +4,4 @@
 4,beans,12.0,10,Tesco
 5,test,123.0,7,NSK
 6,abc,123.0,7,NSK
+7,Fish,7.0,8,KK

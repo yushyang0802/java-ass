@@ -155,36 +155,38 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(DateTextField)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(ItemIDTextField)
-                    .addComponent(ItemNameTextField)
-                    .addComponent(jLabel5)
-                    .addComponent(QuantityTextField)
-                    .addComponent(AddSalesEntryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(DeleteSalesEntryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(EditSalesEntryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SearchByDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
-                        .addComponent(SearchByDateButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(ResetButton)))
-                .addGap(80, 80, 80))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(70, 70, 70)
-                .addComponent(BacktoMenuButton)
+                        .addGap(51, 51, 51)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(DateTextField)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(ItemIDTextField)
+                            .addComponent(ItemNameTextField)
+                            .addComponent(jLabel5)
+                            .addComponent(QuantityTextField)
+                            .addComponent(AddSalesEntryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(DeleteSalesEntryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(EditSalesEntryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(SearchByDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33)
+                                .addComponent(SearchByDateButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(ResetButton)
+                                .addGap(121, 121, 121))
+                            .addComponent(jScrollPane1)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(70, 70, 70)
+                        .addComponent(BacktoMenuButton)))
                 .addGap(15, 15, 15))
         );
         layout.setVerticalGroup(
@@ -277,6 +279,7 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
                             // Add the sales entry to the table model
                             Object[] row = { date, itemid, itemname, supplierID, supplierName, quantity, totalSales };
                             model.addRow(row);
+                            JOptionPane.showMessageDialog(null, "Sales entry added succesfully");
 
                             // Save the sales entry information to "salesentry.txt"
                             try (BufferedWriter writer = new BufferedWriter(new FileWriter("salesentry.txt", true))) {
@@ -331,6 +334,7 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
 
             // Remove the selected row from the table model
             model.removeRow(row);
+            JOptionPane.showMessageDialog(null, "Sales entry deleted succesfully");
 
             // Update the "salesentry.txt" file by removing the deleted entry
             ArrayList<SalesEntry> salesEntries = SalesEntry.readSalesEntriesFromFile("salesentry.txt");
@@ -411,6 +415,9 @@ public class DailyItemWiseSalesEntry extends javax.swing.JFrame {
                                     model.setValueAt(supplierName, row, 4);
                                     model.setValueAt(quantity, row, 5);
                                     model.setValueAt(totalSales, row, 6);
+                                    
+                                    JOptionPane.showMessageDialog(null, "Sales entry edited successfully");
+
 
                                     // Update the "salesentry.txt" file
                                     ArrayList<SalesEntry> salesEntries = SalesEntry.readSalesEntriesFromFile("salesentry.txt");

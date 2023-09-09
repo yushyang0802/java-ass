@@ -31,7 +31,7 @@ public class ListOfSalesEntry extends javax.swing.JFrame {
     }
     
      private void loadDataFromSalesEntryFile() {
-        ArrayList<SalesEntry> salesEntries = SalesEntry.readSalesEntriesFromFile("C:\\Users\\ACER\\Documents\\NetBeansProjects\\JavaAss\\src\\javaass\\salesentry.txt");
+        ArrayList<SalesEntry> salesEntries = SalesEntry.readSalesEntriesFromFile("salesentry.txt");
 
         for (SalesEntry entry : salesEntries) {
             Object[] row = {entry.getDate(), entry.getID(), entry.getName(), entry.getSupplierID(), entry.getSupplierName(), entry.getQuantity(), entry.getTotalSales()};
@@ -96,19 +96,10 @@ public class ListOfSalesEntry extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(73, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(109, 109, 109)
-                        .addComponent(BackButton)
-                        .addGap(20, 20, 20))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(59, 59, 59))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
                         .addComponent(SearchByDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -116,7 +107,15 @@ public class ListOfSalesEntry extends javax.swing.JFrame {
                         .addComponent(SearchByDateButton)
                         .addGap(18, 18, 18)
                         .addComponent(ResetButton)
-                        .addContainerGap())))
+                        .addGap(47, 47, 47))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 543, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(109, 109, 109)
+                                .addComponent(BackButton)))
+                        .addGap(20, 20, 20))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,8 +161,10 @@ public class ListOfSalesEntry extends javax.swing.JFrame {
                         model.getValueAt(i, 0), // Date
                         model.getValueAt(i, 1), // ItemID
                         model.getValueAt(i, 2), // ItemName
-                        model.getValueAt(i, 3), // Quantity
-                        model.getValueAt(i, 4)  // Total Sales
+                        model.getValueAt(i, 3), // SupplierID
+                        model.getValueAt(i, 4), // SupplierName
+                        model.getValueAt(i, 5), // Quantity
+                        model.getValueAt(i, 6), // Total Sales
                     };
                     filteredModel.addRow(row);
                 }
