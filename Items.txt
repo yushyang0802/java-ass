@@ -1,2 +1,6 @@
 1,Beans,0.5,11,Aeon
 2,Chicken,6.0,10,Tesco
+3,bean,12.0,10,Tesco
+4,beans,12.0,10,Tesco
+5,test,123.0,7,NSK
+6,abc,123.0,7,NSK

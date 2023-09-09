@@ -1,4 +1,4 @@
-7,afasd,asfasd,45
-8,a,ab,2
+7,NSK,Selangor,0145286593
+8,KK,Melacca,0125489635
 10,Tesco,KL,0123456789
-11,Aeon,KL,0123456789
+11,Aeon,Penang,0125456789

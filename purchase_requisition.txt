@@ -1,3 +1,1 @@
-p005/durian/15.0/15/225.0/c003/Company R
-1/Beans/0.5/1/0.5/11/Aeon
-2/Chicken/6.0/5/30.0/10/Tesco
+2/Chicken/6.0/50/300.0/10/Tesco
